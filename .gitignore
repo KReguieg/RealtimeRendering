@@ -36,3 +36,5 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user
 
+# MAC
+.DS_Store
