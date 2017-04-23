@@ -113,3 +113,14 @@ void AppWindow::on_horizontalSlider_Z_sliderMoved(int position)
     scene().worldTransform().rotate(position, QVector3D(0,0,1));
     ui->openGLWidget->update();
 }
+
+void AppWindow::on_spinBox_shadingLevel_valueChanged(int shadingLevel)
+{
+    // Get the value from the ui and pass it to the scene
+    // Where Uniforms can be set.
+    std::cout << "Value: " << float(shadingLevel) << endl;
+    //scene().program_->setUniformValue("shadingLevles", float(shadingLevel));
+    //scene().changeShadingLevel((float)shadingLevel);
+
+    ui->openGLWidget->update();
+}

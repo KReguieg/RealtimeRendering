@@ -11,5 +11,7 @@
         <file>assets/shaders/minimal.vert</file>
         <file>assets/models/teddy.obj</file>
         <file>assets/models/bunny.obj</file>
+        <file>assets/shaders/cel.vert</file>
+        <file>assets/shaders/cel.frag</file>
     </qresource>
 </RCC>

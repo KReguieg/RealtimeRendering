@@ -12,11 +12,11 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // create shader program to be used for rendering
     program_ = new QOpenGLShaderProgram();
     if(!program_->addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                    ":/assets/shaders/myphong.vert"))
+                                    ":/assets/shaders/cel.vert"))
         qFatal("could not add vertex shader");
     if(!program_->addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                    ":/assets/shaders/myphong.frag"))
-        qFatal("coudl not add fragment shader");
+                                    ":/assets/shaders/cel.frag"))
+        qFatal("could not add fragment shader");
 
     if(!program_->link())
         qFatal("could not link shader program");
@@ -24,6 +24,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // Material: use default Phong material
     material_ = std::make_shared<PhongMaterial>();
     material_->setUniforms(*program_);
+    //changeShadingLevel(*program_);
 
     // load meshes from .obj files and assign shader programs to them
     meshes_["Duck"] = std::make_shared<Mesh>(":/assets/models/duck/duck.obj", program_);
@@ -65,6 +66,14 @@ void Scene::changeModel(const QString &txt)
     update();
 
 }
+
+/*
+void Scene::changeShadingLevel(const GLfloat &shadingLevels)
+{
+    std::cout << "In changeShadingLevel= " << shadingLevels << endl;
+    *program_->setUniformValue("shadingLevels", shadingLevels);
+    update();
+}*/
 
 void Scene::draw()
 {

@@ -41,6 +41,9 @@ public slots:
     // change model according to combo box in UI
     void changeModel(const QString& txt);
 
+    // change the shading level accroding to sliderBox in UI
+    // void changeShadingLevel(const  GLfloat& shadingLevels);
+
     // perform OpenGL rendering of the entire scene. Don't call this yourself.
     void draw();
 

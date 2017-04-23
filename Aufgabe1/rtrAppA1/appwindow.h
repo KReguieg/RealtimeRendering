@@ -51,6 +51,8 @@ private slots:
 
     void on_horizontalSlider_Z_sliderMoved(int position);
 
+    void on_spinBox_shadingLevel_valueChanged(int arg1);
+
 private:
     // this is the connection to the class that will come out of the UI designer
     Ui::AppWindow *ui;
