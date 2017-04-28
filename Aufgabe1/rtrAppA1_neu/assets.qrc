@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/textures/RTR-ist-super-4-3.png</file>
+        <file>assets/shaders/myphong.frag</file>
+        <file>assets/shaders/myphong.vert</file>
+        <file>assets/models/duck/duck.obj</file>
+        <file>assets/models/duck/duck.obj.mtl</file>
+        <file>assets/models/duck/duckCM.png</file>
+        <file>assets/models/trefoil.obj</file>
+        <file>assets/shaders/minimal.frag</file>
+        <file>assets/shaders/minimal.vert</file>
+    </qresource>
+</RCC>

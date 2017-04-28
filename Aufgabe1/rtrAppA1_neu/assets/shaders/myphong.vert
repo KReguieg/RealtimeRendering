@@ -8,17 +8,8 @@
  * and model-view, projection and normal matrices.
  *
  * It transforms the position and normal to eye coordinates and
- * passes them to the fragment shader; it also transforms the vertex
+ * passes them to the fragment shader; it also transforms the vertex 
  * position to clip coordinates for the needs of the pipeline.
- *
- */
-
-/*
- * As base we take the phong shader of Hartmut Schirmacher, mentioned above
- * Then we implement our toon/cel shader after with the help of these sources:
- *
- * https://en.wikipedia.org/wiki/Cel_shading
- * https://www.youtube.com/watch?v=dzItGHyteng
  *
  */
 
@@ -36,9 +27,8 @@ in vec3 normal_MC;
 out vec4 position_EC;
 out vec3 normal_EC;
 
-
 void main(void) {
-
+    
     // position to eye coordinates
     position_EC = modelViewMatrix * vec4(position_MC,1);
 

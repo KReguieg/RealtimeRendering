@@ -13,8 +13,6 @@
 #include "ui_appwindow.h"
 #include "scene.h"
 
-#include <iostream>
-
 AppWindow::AppWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AppWindow)
@@ -85,42 +83,13 @@ void AppWindow::keyPressEvent(QKeyEvent *event)
 
     // translate camera
     case Qt::Key_Up:
-        scene().camera().translateViewPoint(QVector3D(0,0,-0.1));
+        scene().camera().translateViewPoint(QVector3D(0,0,-0.1f));
         ui->openGLWidget->update();
         break;
     case Qt::Key_Down:
-        scene().camera().translateViewPoint(QVector3D(0,0,+0.1));
+        scene().camera().translateViewPoint(QVector3D(0,0,+0.1f));
         ui->openGLWidget->update();
         break;
 
     } // switch
-}
-
-void AppWindow::on_horizontalSlider_Y_sliderMoved(int position)
-{
-    scene().worldTransform().rotate(position, QVector3D(0,1,0));
-    ui->openGLWidget->update();
-}
-
-void AppWindow::on_horizontalSlider_X_sliderMoved(int position)
-{
-    scene().worldTransform().rotate(position, QVector3D(1,0,0));
-    ui->openGLWidget->update();
-}
-
-void AppWindow::on_horizontalSlider_Z_sliderMoved(int position)
-{
-    scene().worldTransform().rotate(position, QVector3D(0,0,1));
-    ui->openGLWidget->update();
-}
-
-void AppWindow::on_spinBox_shadingLevel_valueChanged(int shadingLevel)
-{
-    // Get the value from the ui and pass it to the scene
-    // Where Uniforms can be set.
-    std::cout << "Value: " << (float)shadingLevel << endl;
-    //scene().program_->setUniformValue("shadingLevles", (float)shadingLevel);
-    scene().changeShadingLevel((float)shadingLevel);
-
-    ui->openGLWidget->update();
 }

@@ -37,4 +37,4 @@ Makefile*
 CMakeLists.txt.user
 
 # MAC
-.DS_Store
+*.DS_Store

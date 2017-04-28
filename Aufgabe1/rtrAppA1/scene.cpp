@@ -36,6 +36,8 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // make the duck the current model
     changeModel("Duck");
 
+    //program_->setUniformValue("shadingLevels", 3.0f);
+
     // create default camera (0,0,4) -> (0,0,0), 45°
     float aspect = float(parent->width())/float(parent->height());
     camera_ = std::make_shared<Camera>(
@@ -67,13 +69,24 @@ void Scene::changeModel(const QString &txt)
 
 }
 
-/*
-void Scene::changeShadingLevel(const GLfloat &shadingLevels)
+void Scene::changeShadingLevel(const float &shadingLevels)
 {
     std::cout << "In changeShadingLevel= " << shadingLevels << endl;
-    *program_->setUniformValue("shadingLevels", shadingLevels);
+    //GLuint position = glGetUniformLocation(program_, "shadisdangLevels");
+    //std::cout << " Position of Uniform= " << position << endl;
+
+    //program_->setUniformValue("shadingLevels", (GLfloat)shadingLevels);
+
+    GLint loc = glGetUniformLocation(program_->programId(), "shadingLevels");
+    std::cout << " LOC= " << loc << endl;
+
+    if (loc != -1)
+    {
+        program_->bind();
+        glUniform1f(loc, shadingLevels);
+    }
     update();
-}*/
+}
 
 void Scene::draw()
 {
