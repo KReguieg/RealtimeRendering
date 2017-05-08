@@ -9,5 +9,10 @@
         <file>assets/models/trefoil.obj</file>
         <file>assets/shaders/minimal.frag</file>
         <file>assets/shaders/minimal.vert</file>
+        <file>../rtrAppA1/assets/models/teddy.obj</file>
+        <file>assets/models/bunny.obj</file>
+        <file>assets/models/teddy.obj</file>
+        <file>assets/shaders/cel.vert</file>
+        <file>assets/shaders/cel.frag</file>
     </qresource>
 </RCC>

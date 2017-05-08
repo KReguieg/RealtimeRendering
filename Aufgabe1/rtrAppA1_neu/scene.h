@@ -41,6 +41,9 @@ public slots:
     // change model according to combo box in UI
     void changeModel(const QString& txt);
 
+    // change the shading level accroding to sliderBox in UI
+    void changeShadingLevel(const  float& shadingLevels);
+
     // perform OpenGL rendering of the entire scene. Don't call this yourself.
     void draw();
 
@@ -79,5 +82,8 @@ protected:
 
     // helper for creating a node scaled to size 1
     std::shared_ptr<Node> createNode(std::shared_ptr<Mesh> mesh, bool scale_to_1 = true);
+
+    //
+    std::shared_ptr<PhongMaterial> material_;
 };
 

@@ -41,6 +41,9 @@ public:
     // constructor requires existing shader program
     PhongMaterial(std::shared_ptr<QOpenGLShaderProgram> prog) : Material(prog) {}
 
+    // toon properties
+    float shadingLevels = 3.0f;
+
     // actual properties of the object's materia
     QVector3D k_ambient  = QVector3D(0.50f,0.10f,0.10f); // red-ish
     QVector3D k_diffuse  = QVector3D(0.50f,0.10f,0.10f); // red-ish

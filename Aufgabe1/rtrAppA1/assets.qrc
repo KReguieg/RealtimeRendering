@@ -13,5 +13,6 @@
         <file>assets/models/bunny.obj</file>
         <file>assets/shaders/cel.vert</file>
         <file>assets/shaders/cel.frag</file>
+        <file>assets/models/cube.obj</file>
     </qresource>
 </RCC>

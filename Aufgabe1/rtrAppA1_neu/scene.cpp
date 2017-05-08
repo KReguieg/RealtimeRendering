@@ -14,26 +14,30 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
 {
 
     // load shader source files and compile them into OpenGL program objects
-    auto phong_prog = createProgram(":/assets/shaders/myphong.vert", ":/assets/shaders/myphong.frag");
+    auto phong_prog = createProgram(":/assets/shaders/cel.vert", ":/assets/shaders/cel.frag");
 
     // create required materials
-    shared_ptr<PhongMaterial> red = std::make_shared<PhongMaterial>(phong_prog);
+    material_ = std::make_shared<PhongMaterial>(phong_prog);
 
     // store materials in map container
-    materials_["phong_red"] = red;
+    materials_["phong_red"] = material_;
 
     // load meshes from .obj files and assign shader programs to them
-    meshes_["Duck"] = std::make_shared<Mesh>(":/assets/models/duck/duck.obj", red);
-    meshes_["Trefoil"] = std::make_shared<Mesh>(":/assets/models/trefoil.obj", red);
+    meshes_["Duck"] = std::make_shared<Mesh>(":/assets/models/duck/duck.obj", material_);
+    meshes_["Trefoil"] = std::make_shared<Mesh>(":/assets/models/trefoil.obj", material_);
+    meshes_["Cube"] = std::make_shared<Mesh>(make_shared<geom::Cube>(), material_);
+    meshes_["Bunny"] = std::make_shared<Mesh>(":/assets/models/bunny.obj", material_);
+    meshes_["Teddy"] = std::make_shared<Mesh>(":/assets/models/teddy.obj", material_);
 
-    // add meshes of some procedural geometry objects (not loaded from OBJ files)
-    meshes_["Cube"] = std::make_shared<Mesh>(make_shared<geom::Cube>(), red);
+    // add meshes of some procedural geometry objects (not loaded from OBJ files) 
 
     // pack each mesh into a scene node, along with a transform that scales
     // it to standard size [1,1,1]
     nodes_["Duck"]    = createNode(meshes_["Duck"], true);
     nodes_["Trefoil"] = createNode(meshes_["Trefoil"], true);
     nodes_["Cube"]    = createNode(meshes_["Cube"], true);
+    nodes_["Bunny"]   = createNode(meshes_["Bunny"], true);
+    nodes_["Teddy"]   = createNode(meshes_["Teddy"], true);
 
     // make the duck the current model
     changeModel("Duck");
@@ -89,6 +93,27 @@ void Scene::changeModel(const QString &txt)
 
     update();
 
+}
+
+void Scene::changeShadingLevel(const float &shadingLevels)
+{
+    std::cout << "In changeShadingLevel= " << shadingLevels << endl;
+    //GLuint position = glGetUniformLocation(program_, "shadisdangLevels");
+    //std::cout << " Position of Uniform= " << position << endl;
+
+    //program_->setUniformValue("shadingLevels", (GLfloat)shadingLevels);
+    /*
+    GLint loc = glGetUniformLocation( materials_["phong_red"].program()->programId(), "shadingLevels");
+    std::cout << " LOC= " << loc << endl;
+
+    if (loc != -1)
+    {
+        materials_["phong_red"].program().program_->bind();
+        glUniform1f(loc, shadingLevels);
+    }*/
+    material_->shadingLevels = shadingLevels;
+
+    update();
 }
 
 void Scene::draw()

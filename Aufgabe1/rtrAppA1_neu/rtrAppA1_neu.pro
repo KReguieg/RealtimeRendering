@@ -52,7 +52,9 @@ DISTFILES += \
     assets/shaders/myphong.frag \
     assets/shaders/myphong.vert \
     assets/shaders/minimal.frag \
-    assets/shaders/minimal.vert
+    assets/shaders/minimal.vert \
+    assets/shaders/cel.frag \
+    assets/shaders/cel.vert
 
 # additional libs needed on Windows
 win32: LIBS += -lopengl32

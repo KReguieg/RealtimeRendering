@@ -31,6 +31,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     meshes_["Trefoil"] = std::make_shared<Mesh>(":/assets/models/trefoil.obj", program_);
     //meshes_["Homer"] = std::make_shared<Mesh>(":/assets/models/homer.obj", program_);
     meshes_["Bunny"] = std::make_shared<Mesh>(":/assets/models/bunny.obj", program_);
+    meshes_["Cube"] = std::make_shared<Mesh>(":/assets/models/cube.obj", program_);
     meshes_["Teddy"] = std::make_shared<Mesh>(":/assets/models/teddy.obj", program_);
 
     // make the duck the current model

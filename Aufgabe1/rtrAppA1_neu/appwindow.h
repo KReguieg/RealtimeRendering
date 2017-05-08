@@ -45,6 +45,8 @@ public slots:
 
 private slots:
 
+    void on_spinBox_cel_level_valueChanged(int arg1);
+
 private:
     // this is the connection to the class that will come out of the UI designer
     Ui::AppWindow *ui;

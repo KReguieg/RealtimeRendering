@@ -93,3 +93,9 @@ void AppWindow::keyPressEvent(QKeyEvent *event)
 
     } // switch
 }
+
+void AppWindow::on_spinBox_cel_level_valueChanged(int shadingLevel)
+{
+    scene().changeShadingLevel((float)shadingLevel);
+    ui->openGLWidget->update();
+}
