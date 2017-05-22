@@ -44,6 +44,15 @@ public slots:
     // change the shading level accroding to sliderBox in UI
     void changeShadingLevel(const  float& shadingLevels);
 
+    // changes the radius of the dots in the circle shader
+    void changeDotRadius(const  float& dotRadius);
+
+    // changes the radius of the dots in the circle shader
+    void changeDotDensity(const  float& dotDensity);
+
+    // changes the radius of the dots in the circle shader
+    void changeDotColor(const QVector4D& dotColor);
+
     // perform OpenGL rendering of the entire scene. Don't call this yourself.
     void draw();
 
@@ -85,5 +94,7 @@ protected:
 
     //
     std::shared_ptr<PhongMaterial> material_;
+
+    std::shared_ptr<DotMaterial> dotMaterial_;
 };
 

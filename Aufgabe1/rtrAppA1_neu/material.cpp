@@ -12,3 +12,11 @@ void PhongMaterial::apply()
     prog_->setUniformValue("light.position_EC", lightPos_EC);
     prog_->setUniformValue("light.intensity", lightIntensity);
 }
+
+void DotMaterial::apply()
+{
+    prog_->bind();
+    prog_->setUniformValue("dots.radius", radius);
+    prog_->setUniformValue("dots.density", density);
+    prog_->setUniformValue("dots.color", color);
+}

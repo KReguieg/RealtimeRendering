@@ -32,6 +32,7 @@ public:
 
     // convenience shortcut to the OpenGL scene
     Scene &scene();
+    QRgb circle_color_;
 
 public slots:
 
@@ -46,6 +47,16 @@ public slots:
 private slots:
 
     void on_spinBox_cel_level_valueChanged(int arg1);
+
+    void on_horizontalSlider_x_rotation_valueChanged(int value);
+
+    void on_pushButton_colorPicker_clicked();
+
+    void on_spinBox_radius_valueChanged(int arg1);
+
+    void on_spinBox_density_valueChanged(int arg1);
+
+    void on_horizontalSlider_y_rotation_valueChanged(int value);
 
 private:
     // this is the connection to the class that will come out of the UI designer

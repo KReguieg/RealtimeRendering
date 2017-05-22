@@ -15,19 +15,23 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
 
     // load shader source files and compile them into OpenGL program objects
     auto phong_prog = createProgram(":/assets/shaders/cel.vert", ":/assets/shaders/cel.frag");
+    auto dot_prog = createProgram(":/assets/shaders/dot.vert", ":/assets/shaders/dot.frag");
 
     // create required materials
+    dotMaterial_ = std::make_shared<DotMaterial>(dot_prog);
     material_ = std::make_shared<PhongMaterial>(phong_prog);
 
     // store materials in map container
-    materials_["phong_red"] = material_;
+    materials_["dot_prog"] = dotMaterial_;
+    materials_["phong_prog"] = material_;
 
     // load meshes from .obj files and assign shader programs to them
     meshes_["Duck"] = std::make_shared<Mesh>(":/assets/models/duck/duck.obj", material_);
     meshes_["Trefoil"] = std::make_shared<Mesh>(":/assets/models/trefoil.obj", material_);
-    meshes_["Cube"] = std::make_shared<Mesh>(make_shared<geom::Cube>(), material_);
+    meshes_["Cube"] = std::make_shared<Mesh>(make_shared<geom::Cube>(), dotMaterial_);
     meshes_["Bunny"] = std::make_shared<Mesh>(":/assets/models/bunny.obj", material_);
     meshes_["Teddy"] = std::make_shared<Mesh>(":/assets/models/teddy.obj", material_);
+    meshes_["Teapot"] = std::make_shared<Mesh>(":/assets/models/teapot/teapot.obj", dotMaterial_);
 
     // add meshes of some procedural geometry objects (not loaded from OBJ files) 
 
@@ -38,6 +42,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     nodes_["Cube"]    = createNode(meshes_["Cube"], true);
     nodes_["Bunny"]   = createNode(meshes_["Bunny"], true);
     nodes_["Teddy"]   = createNode(meshes_["Teddy"], true);
+    nodes_["Teapot"]   = createNode(meshes_["Teapot"], true);
 
     // make the duck the current model
     changeModel("Duck");
@@ -98,21 +103,26 @@ void Scene::changeModel(const QString &txt)
 void Scene::changeShadingLevel(const float &shadingLevels)
 {
     std::cout << "In changeShadingLevel= " << shadingLevels << endl;
-    //GLuint position = glGetUniformLocation(program_, "shadisdangLevels");
-    //std::cout << " Position of Uniform= " << position << endl;
-
-    //program_->setUniformValue("shadingLevels", (GLfloat)shadingLevels);
-    /*
-    GLint loc = glGetUniformLocation( materials_["phong_red"].program()->programId(), "shadingLevels");
-    std::cout << " LOC= " << loc << endl;
-
-    if (loc != -1)
-    {
-        materials_["phong_red"].program().program_->bind();
-        glUniform1f(loc, shadingLevels);
-    }*/
     material_->shadingLevels = shadingLevels;
 
+    update();
+}
+
+void Scene::changeDotRadius(const float &dotRadius) {
+    std::cout << "In changeDotRadius= " << dotRadius << endl;
+    dotMaterial_->radius = dotRadius;
+    update();
+}
+
+void Scene::changeDotDensity(const float &dotDensity) {
+    std::cout << "In changeDotDensity= " << dotDensity << endl;
+    dotMaterial_->density = 100.0/dotDensity;
+    update();
+}
+
+void Scene::changeDotColor(const QVector4D &dotColor) {
+    std::cout << "In changeDotColor= " << dotColor.x() << dotColor.y() << dotColor.z() << endl;
+    dotMaterial_->color = dotColor;
     update();
 }
 

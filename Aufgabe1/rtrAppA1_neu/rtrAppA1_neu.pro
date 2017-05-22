@@ -54,7 +54,9 @@ DISTFILES += \
     assets/shaders/minimal.frag \
     assets/shaders/minimal.vert \
     assets/shaders/cel.frag \
-    assets/shaders/cel.vert
+    assets/shaders/cel.vert \
+    assets/shaders/dot.vert \
+    assets/shaders/dot.frag
 
 # additional libs needed on Windows
 win32: LIBS += -lopengl32

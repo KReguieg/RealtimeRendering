@@ -61,7 +61,17 @@ public:
     void apply() override;
 };
 
+// dummy material: no parameters to be set.
+class DotMaterial : public Material {
+public:
 
+    DotMaterial(std::shared_ptr<QOpenGLShaderProgram> prog) : Material(prog) {}
+    // 100.0 equals 1.0
+    float radius = 100.0;
+    float density = 100.0/4.0;
+    QVector4D color = QVector4D(0, 0, 1.0, 1.0);
+    void apply() override;
+};
 
 
 #endif // MATERIAL_H

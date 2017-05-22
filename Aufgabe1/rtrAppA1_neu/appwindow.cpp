@@ -12,6 +12,8 @@
 #include "appwindow.h"
 #include "ui_appwindow.h"
 #include "scene.h"
+#include <QColorDialog>
+#include <iostream>
 
 AppWindow::AppWindow(QWidget *parent) :
     QWidget(parent),
@@ -97,5 +99,40 @@ void AppWindow::keyPressEvent(QKeyEvent *event)
 void AppWindow::on_spinBox_cel_level_valueChanged(int shadingLevel)
 {
     scene().changeShadingLevel((float)shadingLevel);
+    ui->openGLWidget->update();
+}
+
+void AppWindow::on_horizontalSlider_x_rotation_valueChanged(int value)
+{
+    scene().worldTransform().rotate(value*36, QVector3D(0,1,0));
+    ui->openGLWidget->update();
+}
+
+void AppWindow::on_spinBox_radius_valueChanged(int radius)
+{
+    scene().changeDotRadius(float(radius));
+    ui->openGLWidget->update();
+}
+
+
+void AppWindow::on_spinBox_density_valueChanged(int density)
+{
+    scene().changeDotDensity(float(density));
+    ui->openGLWidget->update();
+}
+
+void AppWindow::on_pushButton_colorPicker_clicked()
+{
+    std::cout << "Clicked on the nice color picker button!" << std::endl;
+    QColor tempCol = QColorDialog::getColor(QColor::fromRgba(circle_color_), this, "Pick a color");
+    // std::cout << "Selected the nice color " + tempCol.name().toStdString() << std::endl;
+    scene().changeDotColor(QVector4D(tempCol.red()/255.0, tempCol.green()/255.0, tempCol.blue()/255.0, 1));
+    ui->pushButton_colorPicker->setStyleSheet("background-color: " + tempCol.name());
+    ui->openGLWidget->update();
+}
+
+void AppWindow::on_horizontalSlider_y_rotation_valueChanged(int value)
+{
+    scene().worldTransform().rotate(value*36, QVector3D(1,0,0));
     ui->openGLWidget->update();
 }

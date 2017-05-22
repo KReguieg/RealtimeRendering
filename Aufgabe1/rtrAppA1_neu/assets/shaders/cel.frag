@@ -68,19 +68,21 @@ vec3 phongIllum(vec3 normalDir, vec3 viewDir, vec3 lightDir)
     float ndotv = dot(normalDir,viewDir);
 
     // visual debugging, you can safely comment this out
-    // if(ndotv<0)
-    //     return vec3(0,1,0);
+    if(ndotv<0.3)
+         return vec3(0,0,0);
 
     // cos of angle between light and surface.
     // brightness
     float ndotl = max(dot(normalDir,-lightDir),0);
-
+    // ndotl = 2-acos(ndotl);
     // Find out on which level the brightness is at the moment
     // and then floor it
     float level = floor(ndotl * toon.shadingLevels);
 
     // set brightness to the lower edge of the level
     ndotl = level / toon.shadingLevels;
+
+
 
     // diffuse contribution
     vec3 diffuse = material.k_diffuse * light.intensity * ndotl;
@@ -95,12 +97,12 @@ vec3 phongIllum(vec3 normalDir, vec3 viewDir, vec3 lightDir)
     // Lighting so the glowpoints of an object looks toonish as well.
 
     float dampedFactor = pow(rdotv, material.shininess);
-    level = floor(dampedFactor * toon.shadingLevels);
+    level = floor(dampedFactor); // * toon.shadingLevels);
     dampedFactor = level / toon.shadingLevels;
 
     // specular contribution
     vec3 specular = material.k_specular * light.intensity *
-                    dampedFactor;
+                  dampedFactor;
 
     // return sum of all contributions
     return ambient + diffuse + specular;
