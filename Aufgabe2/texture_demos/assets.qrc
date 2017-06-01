@@ -36,5 +36,10 @@
         <file>assets/shaders/vectors_per_triangle.frag</file>
         <file>assets/shaders/vectors_per_triangle.geom</file>
         <file>assets/shaders/vectors_per_triangle.vert</file>
+        <file>assets/textures/alzheimer_bump.jpg</file>
+        <file>assets/textures/alzheimer_normal.jpg</file>
+        <file>assets/textures/alzheimer.jpg</file>
+        <file>assets/textures/alzheimer_diffuse.jpg</file>
+        <file>assets/textures/circuit.jpg</file>
     </qresource>
 </RCC>
