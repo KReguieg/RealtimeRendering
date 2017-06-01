@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/textures/RTR-ist-super-4-3.png</file>
+        <file>assets/shaders/myphong.frag</file>
+        <file>assets/shaders/myphong.vert</file>
+        <file>assets/models/duck/duck.obj</file>
+        <file>assets/models/duck/duck.obj.mtl</file>
+        <file>assets/models/duck/duckCM.png</file>
+        <file>assets/models/trefoil.obj</file>
+        <file>assets/shaders/minimal.frag</file>
+        <file>assets/shaders/minimal.vert</file>
+        <file>assets/models/goblin.obj</file>
+        <file>assets/shaders/planet_with_bumps.frag</file>
+        <file>assets/shaders/planet_with_bumps.vert</file>
+        <file>assets/shaders/planet_with_textures.frag</file>
+        <file>assets/shaders/planet_with_textures.vert</file>
+        <file>assets/textures/brick.jpg</file>
+        <file>assets/textures/earth_at_night_2048.jpg</file>
+        <file>assets/textures/earth_bathymetry_2048.jpg</file>
+        <file>assets/textures/earth_clouds_2048.jpg</file>
+        <file>assets/textures/earth_day.jpg</file>
+        <file>assets/textures/earth_topography_2048_NRM.png</file>
+        <file>assets/textures/earth_topography_2048.jpg</file>
+        <file>assets/textures/metallboden.jpg</file>
+        <file>assets/textures/pattern.png</file>
+        <file>assets/textures/sitz.png</file>
+        <file>assets/textures/stones.gif</file>
+        <file>assets/textures/stonewall_color.png</file>
+        <file>assets/textures/stonewall_normals.png</file>
+        <file>assets/shaders/wireframe.frag</file>
+        <file>assets/shaders/wireframe.geom</file>
+        <file>assets/shaders/wireframe.vert</file>
+        <file>assets/shaders/vectors.frag</file>
+        <file>assets/shaders/vectors.geom</file>
+        <file>assets/shaders/vectors.vert</file>
+        <file>assets/shaders/vectors_per_triangle.frag</file>
+        <file>assets/shaders/vectors_per_triangle.geom</file>
+        <file>assets/shaders/vectors_per_triangle.vert</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AppWindow</class>
+ <widget class="QWidget" name="AppWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>858</width>
+    <height>701</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>RTR Demo</string>
+  </property>
+  <layout class="QHBoxLayout" name="mainLayout">
+   <item>
+    <widget class="rtrGLWidget" name="openGLWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>8</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="ui_container" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>2</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::WheelFocus</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Model</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QComboBox" name="modelComboBox">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Sphere</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Torus</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rect</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Duck</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cube</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Shader</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QComboBox" name="shaderComboBox">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <item>
+            <property name="text">
+             <string>Phong</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Debug Tex Coords</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Debug Day/Night</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Day Texture</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Night Texture</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Day+Night Texture</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Debug Gloss</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Phong+Gloss</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Day+Night+Gloss</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>+Clouds</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_2" native="true">
+           <layout class="QGridLayout" name="gridLayout">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Sunlight</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QSlider" name="sunlightSlider">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Night Lights</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QSlider" name="nightLightSlider">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="value">
+               <number>0</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Blending Exp</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QSlider" name="blendExpSlider">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="animationCheckbox">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>cloud animation</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="title">
+         <string>Background</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QRadioButton" name="blackBgRadioButton">
+           <property name="text">
+            <string>black</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="greyBgRadioButton">
+           <property name="text">
+            <string>grey</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="whiteBgRadioButton">
+           <property name="text">
+            <string>white</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Bump Mapping</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="topMargin">
+          <number>6</number>
+         </property>
+         <property name="bottomMargin">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="bumpMapCheckbox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>on</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="bumpMapSlider">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+           <property name="invertedControls">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Displacement Mapping</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="topMargin">
+          <number>6</number>
+         </property>
+         <property name="bottomMargin">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="dispMapCheckBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>on</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="dispMapSlider">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>Visualize wireframe / vectors</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="topMargin">
+          <number>6</number>
+         </property>
+         <property name="bottomMargin">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="wireframeCheckBox">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>wireframe</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QRadioButton" name="radioButton_off">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="text">
+               <string>off</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">vectorsGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton_N">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="text">
+               <string>N</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">vectorsGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton_T">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="text">
+               <string>T</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">vectorsGroup</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton_B">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="text">
+               <string>B</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">vectorsGroup</string>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="vectorScaleSlider">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>1</number>
+           </property>
+           <property name="sliderPosition">
+            <number>1</number>
+           </property>
+           <property name="tracking">
+            <bool>true</bool>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>368</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="quitButton">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>quit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>'h': show/hide UI</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>cursor keys: rotate / zoom</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>shift + cursor keys: move light</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>rtrGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>rtrglwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="vectorsGroup"/>
+ </buttongroups>
+</ui>
