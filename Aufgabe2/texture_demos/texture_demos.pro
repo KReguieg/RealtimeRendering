@@ -6,6 +6,7 @@ CONFIG += c++14
 
 # QT MODULES TO BE USED
 QT           += gui widgets
+QT           += multimedia widgets
 
 # HEADERS TO BE PROCESSED BY QT
 HEADERS      += \

@@ -5,6 +5,8 @@
 
 #include "scene.h"
 
+#include <QAudioInput>
+
 namespace Ui {
 class AppWindow;
 }
@@ -23,6 +25,49 @@ class AppWindow;
  *   with respective actions in the scene.
  *
  */
+
+class AudioInfo : public QIODevice
+{
+    Q_OBJECT
+
+public:
+    AudioInfo(const QAudioFormat &format, QObject *parent);
+    ~AudioInfo();
+
+    void start();
+    void stop();
+
+    qreal level() const { return m_level; }
+
+    qint64 readData(char *data, qint64 maxlen);
+    qint64 writeData(const char *data, qint64 len);
+
+private:
+    const QAudioFormat m_format;
+    quint32 m_maxAmplitude;
+    qreal m_level; // 0.0 <= m_level <= 1.0
+
+signals:
+    void update();
+};
+
+class RenderArea : public QWidget
+{
+    Q_OBJECT
+
+public:
+    RenderArea(QWidget *parent = 0);
+
+    void setLevel(qreal value);
+
+protected:
+    void paintEvent(QPaintEvent *event);
+
+private:
+    qreal m_level;
+    QPixmap m_pixmap;
+};
+
 
 class AppWindow : public QWidget
 {
@@ -57,8 +102,12 @@ protected:
     void showEvent(QShowEvent *event) override;
 
 private slots:
-
+    void deviceChanged(int number);
+    void refreshDisplay();
+    void readMore();
 private:
+    void initializeAudio();
+    void createAudioInput();
     // this is the connection to the class that will come out of the UI designer
     Ui::AppWindow *ui;
 
@@ -67,5 +116,13 @@ private:
 
     // this is where the app remembers its settings, i.e. window size
     QSettings settings_;
+
+    RenderArea *m_canvas;
+    QAudioDeviceInfo m_device;
+    AudioInfo *m_audioInfo;
+    QAudioFormat m_format;
+    QAudioInput *m_audioInput;
+    QIODevice *m_input;
+    QByteArray m_buffer;
 };
 
