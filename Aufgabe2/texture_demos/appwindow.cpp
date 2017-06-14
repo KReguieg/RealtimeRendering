@@ -409,10 +409,17 @@ void AppWindow::hideUI()
     // zero pixel margins, for borderless OpenGL window
     ui->mainLayout->setContentsMargins(0,0,0,0);
 }
+void AppWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    assert(event);
+
+    scene().SetInput(QVector2D(0, 0));
+}
 
 void AppWindow::keyPressEvent(QKeyEvent *event)
 {
     assert(event);
+
 
     // qDebug() << "modifier: " << event->modifiers() << " key code: " << event->key();
 
@@ -434,6 +441,7 @@ void AppWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Down:
             scene().moveLight(0,-0.1f);
             break;
+
         }
         return;
 
@@ -472,5 +480,17 @@ void AppWindow::keyPressEvent(QKeyEvent *event)
         ui->openGLWidget->update();
         break;
 
+    case Qt::Key_W:
+        scene().SetInput(QVector2D(0,1));
+        break;
+    case Qt::Key_S:
+        scene().SetInput(QVector2D(0,-1));
+        break;
+    case Qt::Key_A:
+        scene().SetInput(QVector2D(1,0));
+        break;
+    case Qt::Key_D:
+        scene().SetInput(QVector2D(-1,0));
+        break;
     } // switch
 }

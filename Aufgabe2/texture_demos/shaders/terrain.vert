@@ -33,6 +33,7 @@ struct DisplacementMaterial {
     sampler2D tex;
 };
 uniform DisplacementMaterial displacement;
+uniform vec2 flyPosition;
 
 
 // output - transformed to eye coordinates (EC)
@@ -50,7 +51,7 @@ out vec2 texcoord_frag;
 void main(void) {
 
     // displacement mapping!
-    float disp = (1-texture(displacement.tex, texcoord).r) * 0.05;
+    float disp = (1-texture(displacement.tex, texcoord+flyPosition).r) * 0.05;
     vec4 pos = vec4(position_MC,1);
 
     pos += vec4(normal_MC,0)*disp;

@@ -162,7 +162,7 @@ public:
         float scale = 1.0;
         std::shared_ptr<QOpenGLTexture> tex;
     } displacement;
-
+    QVector2D flyPosition;
     // bind underlying shader program and set required uniforms
     void apply() override;
 };

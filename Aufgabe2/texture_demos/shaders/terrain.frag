@@ -69,24 +69,24 @@ struct DisplacementMaterial {
 };
 uniform DisplacementMaterial displacement;
 
-
+uniform vec2 flyPosition;
 
 vec3 decodeNormal(vec3 normal) {
     return normalize(normal * vec3(2, 2, 1) - vec3(1, 1, 0));
 }
 
 void main() {
-    vec3 bumpValue = texture(bump.tex, texcoord_frag).xyz;
+    vec2 coords = texcoord_frag + flyPosition;
+    vec3 bumpValue = texture(bump.tex, coords).xyz;
     vec3 n = decodeNormal(bumpValue);
     vec3 v = normalize(viewDir_TS);
     vec3 l = normalize(lightDir_TS);
 
     float ndotl = dot(n,l);
     float vdotl = dot(v,l);
-    float ndotv = dot(v,n);
-    vec3 ambient = texture(terrain.texture, texcoord_frag).rgb;
-    vec3 diffuse = texture(terrain.diffuseTexture, texcoord_frag).rgb * vdotl;
-    vec3 displ = (1-texture(displacement.tex, texcoord_frag).rgb) * 0.3;
+    vec3 ambient = texture(terrain.texture, coords).rgb;
+    vec3 diffuse = texture(terrain.diffuseTexture, coords).rgb * vdotl;
+    vec3 displ = (1-texture(displacement.tex, coords).rgb) * 0.3;
     vec3 color = ambient + diffuse + displ;
     // set fragment color
     //outColor = vec4(texture(terrain.texture, texcoord_frag).rgb, 1.0) + vec4(texture(bump.tex, texcoord_frag).rgb, 1.0);

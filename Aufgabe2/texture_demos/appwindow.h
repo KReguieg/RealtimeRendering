@@ -89,6 +89,7 @@ public slots:
 
     /* process app-wide key events and trigger respective actions in UI or in the scene */
     void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
     /* set default values for the UI widgets. must only be called AFTER constructor */
     void setDefaultUIValues();

@@ -39,7 +39,7 @@ public:
 signals:
 
 public slots:
-
+    void SetInput(QVector2D input);
     // change model according to combo box in UI
     void changeModel(const QString& txt);
 
@@ -155,5 +155,8 @@ protected:
     // helper for creating a node scaled to size 1
     std::shared_ptr<Node> createNode(std::shared_ptr<Mesh> mesh, bool scale_to_1 = true);
 
+    QVector2D FlyPosition;
+    QVector2D FlyDirection;
+    QVector2D FlyInput;
 };
 

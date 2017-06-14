@@ -281,8 +281,10 @@ void Scene::changeShader(const QString &txt)
         planetMaterial_->planet.useCloudsTexture = true;
 
     }
-    if(txt == "Fly Over Terrain")
+    if(txt == "Fly Over Terrain"){
         flyOverTerrain = true;
+        toggleAnimation(true);
+    }
     else
         flyOverTerrain = false;
 
@@ -330,6 +332,9 @@ void Scene::draw()
 
     if(flyOverTerrain)
     {
+        FlyDirection = (FlyInput*0.1 + FlyDirection * 0.8).normalized();
+        FlyPosition += FlyDirection * 0.01;
+        terrainMaterial_->flyPosition = FlyPosition;
         replaceMaterialAndDrawScene(terrainMaterial_);
     }
     // draw using currently selected material, if one is selected at all
@@ -366,3 +371,8 @@ void Scene::updateViewport(size_t width, size_t height)
     glViewport(0,0,GLint(width),GLint(height));
 }
 
+void Scene::SetInput(QVector2D in ){
+    qDebug() << "Input:" << FlyPosition;
+    FlyInput = in;
+    update();
+}

@@ -81,6 +81,8 @@ void PlanetMaterial::apply()
 void TerrainMaterial::apply(){
     prog_->bind();
 
+    prog_->setUniformValue("flyPosition", flyPosition);
+
     // point light
     prog_->setUniformValue("light.position_EC", light.position_EC);
     prog_->setUniformValue("light.intensity", light.intensity);
