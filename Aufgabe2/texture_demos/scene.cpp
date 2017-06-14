@@ -110,7 +110,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // rotate some models
     nodes_["Sphere"]->transformation.rotate(-90, QVector3D(1,0,0));
     nodes_["Torus"]->transformation.rotate(-60, QVector3D(1,0,0));
-    nodes_["Rect"]->transformation.rotate(30, QVector3D(1,0,0));
+    nodes_["Rect"]->transformation.rotate(10, QVector3D(1,0,0));
 
     // current model and shader
     changeModel("Sphere");
@@ -119,7 +119,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // create default camera (0,0,4) -> (0,0,0), 45°
     float aspect = float(parent->width())/float(parent->height());
     camera_ = std::make_shared<Camera>(
-                QVector3D(0,0.3f,3), // look from
+                QVector3D(0,0,1), // look from
                 QVector3D(0,0,0), // look to
                 QVector3D(0,1,0), // this way is up
                 30.0,   // field of view in up direction
