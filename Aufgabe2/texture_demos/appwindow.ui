@@ -79,12 +79,12 @@
            </item>
            <item>
             <property name="text">
-             <string>Torus</string>
+             <string>Rect</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Rect</string>
+             <string>Torus</string>
             </property>
            </item>
            <item>
@@ -116,6 +116,11 @@
            <item>
             <property name="text">
              <string>Phong</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Fly Over Terrain</string>
             </property>
            </item>
            <item>
@@ -161,11 +166,6 @@
            <item>
             <property name="text">
              <string>+Clouds</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Fly Over Terrain</string>
             </property>
            </item>
            <item>

@@ -283,6 +283,8 @@ void Scene::changeShader(const QString &txt)
     }
     if(txt == "Fly Over Terrain"){
         flyOverTerrain = true;
+        FlyDirection = QVector2D(0,1);
+        flySpeed = 0.001;
         toggleAnimation(true);
     }
     else
@@ -332,8 +334,26 @@ void Scene::draw()
 
     if(flyOverTerrain)
     {
-        FlyDirection = (FlyInput*0.1 + FlyDirection * 0.8).normalized();
-        FlyPosition += FlyDirection * 0.01;
+        if(!(FlyInput.x() == 0 && FlyInput.y() == 0))
+        {
+            if(FlyInput.y() == 0){
+                QVector2D target;
+                QVector3D up = QVector3D(0,0,1);
+
+                target = QVector3D::crossProduct(QVector3D(FlyDirection,0),up).toVector2D();
+                if(FlyInput.x() > 0)
+                    target *= -1;
+                FlyDirection = (target*0.1 + FlyDirection * 0.8).normalized();
+            }
+            else
+            {
+                if(FlyInput.y() > 0)
+                    flySpeed += 0.001;
+                else
+                    flySpeed -= 0.001;
+            }
+        }
+        FlyPosition += FlyDirection * flySpeed;
         terrainMaterial_->flyPosition = FlyPosition;
         replaceMaterialAndDrawScene(terrainMaterial_);
     }
@@ -372,7 +392,6 @@ void Scene::updateViewport(size_t width, size_t height)
 }
 
 void Scene::SetInput(QVector2D in ){
-    qDebug() << "Input:" << FlyPosition;
+    qDebug() << "Input:" << in;
     FlyInput = in;
-    update();
 }

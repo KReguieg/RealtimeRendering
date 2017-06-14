@@ -414,6 +414,7 @@ void AppWindow::keyReleaseEvent(QKeyEvent *event)
     assert(event);
 
     scene().SetInput(QVector2D(0, 0));
+
 }
 
 void AppWindow::keyPressEvent(QKeyEvent *event)

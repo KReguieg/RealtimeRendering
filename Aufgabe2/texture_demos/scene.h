@@ -158,5 +158,6 @@ protected:
     QVector2D FlyPosition;
     QVector2D FlyDirection;
     QVector2D FlyInput;
+    float flySpeed;
 };
 
