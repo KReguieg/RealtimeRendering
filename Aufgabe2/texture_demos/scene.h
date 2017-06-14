@@ -122,10 +122,12 @@ protected:
     std::shared_ptr<PlanetMaterial> planetMaterial_, material_;
     std::shared_ptr<WireframeMaterial> wireframeMaterial_;
     std::shared_ptr<VectorsMaterial> vectorsMaterial_;
+    std::shared_ptr<TerrainMaterial> terrainMaterial_;
 
     // additional debugging information to show
     bool drawUsingPlanetShader = true;
     bool showWireframe  = false;
+    bool flyOverTerrain = false;
 
     // mesh(es) to be used / shared
     std::map<QString, std::shared_ptr<Mesh>> meshes_;

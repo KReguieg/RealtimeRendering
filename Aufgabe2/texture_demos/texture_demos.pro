@@ -44,7 +44,8 @@ SOURCES      += \
 
 # RESOURCE FILES TO BE PROCESSED BY QT
 RESOURCES    += \
-    assets.qrc
+    assets.qrc \
+    shader.qrc
 
 # UI DEFINITION FILES TO BE PROCESSED BY QT (FROM DESIGNER APP)
 FORMS        += \
@@ -52,4 +53,8 @@ FORMS        += \
 
 # additional libs needed on Windows
 win32: LIBS += -lopengl32
+
+DISTFILES += \
+    assets/shaders/terrain_with_bumps.vert \
+    assets/shaders/terrain_with_bumps.frag
 

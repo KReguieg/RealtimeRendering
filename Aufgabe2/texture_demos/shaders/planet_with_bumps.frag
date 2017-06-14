@@ -185,7 +185,7 @@ void main() {
 
     // default normal in tangent space is (0,0,1).
     vec3 bumpValue = texture(bump.tex, texcoord_frag).xyz;
-
+    vec3 diffuse = texture(bump.tex, texcoord_frag).xyz;
     // get bump direction (in tangent space) from bump texture
     vec3 N = bump.use? decodeNormal(bumpValue) : vec3(0,0,1);
     vec3 V = normalize(viewDir_TS);

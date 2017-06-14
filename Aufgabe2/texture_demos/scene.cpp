@@ -36,22 +36,27 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
         cout << "max texture size: " << texsize << "x" << texsize << endl;
     }
 
+
+    auto terrain_prog = createProgram(":/shaders/terrain.vert", ":/shaders/terrain.frag");
+    terrainMaterial_ = std::make_shared<TerrainMaterial>(terrain_prog);
+    terrainMaterial_->light.position_EC = QVector3D(4,0,2);
+
     // load shader source files and compile them into OpenGL program objects
-    auto planet_prog = createProgram(":/assets/shaders/planet_with_bumps.vert", ":/assets/shaders/planet_with_bumps.frag");
+    auto planet_prog = createProgram(":/shaders/planet_with_bumps.vert", ":/shaders/planet_with_bumps.frag");
     planetMaterial_ = std::make_shared<PlanetMaterial>(planet_prog);
     planetMaterial_->light.position_EC = QVector3D(4,0,2);
     planetMaterial_->phong.shininess = 10;
 
     // program (with additional geometry shader) to visualize wireframe
-    auto wire_prog = createProgram(":/assets/shaders/wireframe.vert",
-                                   ":/assets/shaders/wireframe.frag",
-                                   ":/assets/shaders/wireframe.geom");
+    auto wire_prog = createProgram(":/shaders/wireframe.vert",
+                                   ":/shaders/wireframe.frag",
+                                   ":/shaders/wireframe.geom");
     wireframeMaterial_ = std::make_shared<WireframeMaterial>(wire_prog);
 
     // program (with additional geometry shader) to visualize normal/tangent vectors
-    auto vectors_prog = createProgram(":/assets/shaders/vectors.vert",
-                                      ":/assets/shaders/vectors.frag",
-                                      ":/assets/shaders/vectors.geom");
+    auto vectors_prog = createProgram(":/shaders/vectors.vert",
+                                      ":/shaders/vectors.frag",
+                                      ":/shaders/vectors.geom");
     vectorsMaterial_ = std::make_shared<VectorsMaterial>(vectors_prog);
     vectorsMaterial_->vectorToShow  = 0;
 
@@ -62,6 +67,11 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     auto clouds = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/earth_clouds_2048.jpg").mirrored());
     auto disp   = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/earth_topography_2048.jpg").mirrored());
     auto bumps  = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/earth_topography_2048_NRM.png").mirrored());
+
+    auto terrain_tex  = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer.jpg").mirrored());
+    auto terrain_disp   = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer_bump.jpg").mirrored());
+    auto terrain_bumps  = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer_normal.jpg").mirrored());
+    auto terrain_diffuse = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer_diffuse.jpg").mirrored());
 
     // tex parameters
     clouds->setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::Repeat);
@@ -75,6 +85,10 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     planetMaterial_->bump.tex = bumps;
     planetMaterial_->displacement.tex = disp;
 
+    terrainMaterial_->terrain.texture = terrain_tex;
+    terrainMaterial_->displacement.tex = terrain_disp;
+    terrainMaterial_->bump.tex = terrain_bumps;
+    terrainMaterial_->terrain.diffuseTexture = terrain_diffuse;
     // load meshes from .obj files and assign shader programs to them
     auto std = planetMaterial_;
     meshes_["Duck"]    = std::make_shared<Mesh>(":/assets/models/duck/duck.obj", std);
@@ -83,7 +97,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     meshes_["Cube"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std);
     meshes_["Sphere"] = std::make_shared<Mesh>(make_shared<geom::Planet>(80,80), std);
     meshes_["Torus"]  = std::make_shared<Mesh>(make_shared<geom::Torus>(4, 2, 80,20), std);
-    meshes_["Rect"]   = std::make_shared<Mesh>(make_shared<geom::Rect>(20,20), std);
+    meshes_["Rect"]   = std::make_shared<Mesh>(make_shared<geom::Rect>(20,20), terrainMaterial_);
 
     // pack each mesh into a scene node, along with a transform that scales
     // it to standard size [1,1,1]
@@ -265,7 +279,12 @@ void Scene::changeShader(const QString &txt)
         planetMaterial_->planet.useNightTexture = true;
         planetMaterial_->planet.useGlossTexture = true;
         planetMaterial_->planet.useCloudsTexture = true;
+
     }
+    if(txt == "Fly Over Terrain")
+        flyOverTerrain = true;
+    else
+        flyOverTerrain = false;
 
     update();
 }
@@ -309,8 +328,12 @@ void Scene::draw()
     glDisable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
+    if(flyOverTerrain)
+    {
+        replaceMaterialAndDrawScene(terrainMaterial_);
+    }
     // draw using currently selected material, if one is selected at all
-    if(material_)
+    else if(material_)
         replaceMaterialAndDrawScene(material_);
 
     // show wireframe in addition?

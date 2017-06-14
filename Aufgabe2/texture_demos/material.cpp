@@ -76,6 +76,26 @@ void PlanetMaterial::apply()
         prog_->setUniformValue("displacement.scale", displacement.scale);
         prog_->setUniformValue("displacement.tex", 5); displacement.tex->bind(5);
     }
+}
+
+void TerrainMaterial::apply(){
+    prog_->bind();
+
+    // point light
+    prog_->setUniformValue("light.position_EC", light.position_EC);
+    prog_->setUniformValue("light.intensity", light.intensity);
+
+    prog_->setUniformValue("bump.scale", bump.scale);
+    prog_->setUniformValue("displacement.scale", displacement.scale);
+
+    prog_->setUniformValue("terrain.texture", 0);
+    terrain.texture->bind(0);
+    prog_->setUniformValue("bump.tex", 1);
+    bump.tex->bind(1);
+    prog_->setUniformValue("terrain.diffuseTexture", 2);
+    terrain.diffuseTexture->bind(2);
+    prog_->setUniformValue("displacement.tex", 3);
+    displacement.tex ->bind(3);
 
 }
 

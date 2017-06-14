@@ -126,5 +126,46 @@ public:
 
 };
 
+class TerrainMaterial : public Material {
+public:
+    // constructor requires existing shader program
+    TerrainMaterial(std::shared_ptr<QOpenGLShaderProgram> prog) : Material(prog) {}
+    std::shared_ptr<QOpenGLTexture> texture;
+
+    // light position: up right from the camera, in eye coordinates
+    struct PointLight {
+        QVector4D position_EC = QVector4D(2,2,0,1);
+        QVector3D intensity = QVector3D(1,1,1);
+    } light;
+
+    struct Terrain {
+        std::shared_ptr<QOpenGLTexture> texture;
+        std::shared_ptr<QOpenGLTexture> diffuseTexture;
+        std::shared_ptr<QOpenGLTexture> glossTexture;
+        std::shared_ptr<QOpenGLTexture> cloudsTexture;
+        float night_scale = 1.0;
+        float night_blend_exp = 3.0;
+        bool debug = false;
+        bool debugWaterLand = false;
+        bool animateClouds = false;
+    } terrain;
+
+
+    // bump mapping
+    struct Bump {
+        float scale = 1.0;
+        std::shared_ptr<QOpenGLTexture> tex;
+    } bump;
+
+    // displacement mapping
+    struct Displacement {
+        float scale = 1.0;
+        std::shared_ptr<QOpenGLTexture> tex;
+    } displacement;
+
+    // bind underlying shader program and set required uniforms
+    void apply() override;
+};
+
 
 #endif // MATERIAL_H

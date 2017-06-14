@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shaders/minimal.frag</file>
+        <file>shaders/minimal.vert</file>
+        <file>shaders/myphong.frag</file>
+        <file>shaders/myphong.vert</file>
+        <file>shaders/planet_with_bumps.frag</file>
+        <file>shaders/planet_with_bumps.vert</file>
+        <file>shaders/planet_with_textures.frag</file>
+        <file>shaders/planet_with_textures.vert</file>
+        <file>shaders/terrain.frag</file>
+        <file>shaders/terrain.vert</file>
+        <file>shaders/vectors.frag</file>
+        <file>shaders/vectors.geom</file>
+        <file>shaders/vectors.vert</file>
+        <file>shaders/vectors_per_triangle.frag</file>
+        <file>shaders/vectors_per_triangle.geom</file>
+        <file>shaders/vectors_per_triangle.vert</file>
+        <file>shaders/wireframe.frag</file>
+        <file>shaders/wireframe.geom</file>
+        <file>shaders/wireframe.vert</file>
+    </qresource>
+</RCC>
