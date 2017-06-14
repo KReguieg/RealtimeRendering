@@ -83,12 +83,13 @@ void main() {
 
     float ndotl = dot(n,l);
     float vdotl = dot(v,l);
+    float ndotv = dot(v,n);
     vec3 ambient = texture(terrain.texture, texcoord_frag).rgb;
-    vec3 diffuse = texture(terrain.diffuseTexture, texcoord_frag).rgb * vdotl ;
-    vec3 displ = texture(displacement.tex, texcoord_frag).rgb;
-    vec3 color = ambient + diffuse ;
+    vec3 diffuse = texture(terrain.diffuseTexture, texcoord_frag).rgb * vdotl;
+    vec3 displ = (1-texture(displacement.tex, texcoord_frag).rgb) * 0.3;
+    vec3 color = ambient + diffuse + displ;
     // set fragment color
     //outColor = vec4(texture(terrain.texture, texcoord_frag).rgb, 1.0) + vec4(texture(bump.tex, texcoord_frag).rgb, 1.0);
     //outColor = vec4(1);
-    outColor = vec4(displ, 1.0);
+    outColor = vec4(color, 1.0);
 }

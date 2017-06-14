@@ -97,7 +97,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     meshes_["Cube"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std);
     meshes_["Sphere"] = std::make_shared<Mesh>(make_shared<geom::Planet>(80,80), std);
     meshes_["Torus"]  = std::make_shared<Mesh>(make_shared<geom::Torus>(4, 2, 80,20), std);
-    meshes_["Rect"]   = std::make_shared<Mesh>(make_shared<geom::Rect>(20,20), terrainMaterial_);
+    meshes_["Rect"]   = std::make_shared<Mesh>(make_shared<geom::Rect>(500,500), terrainMaterial_);
 
     // pack each mesh into a scene node, along with a transform that scales
     // it to standard size [1,1,1]

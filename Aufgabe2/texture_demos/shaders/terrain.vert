@@ -50,7 +50,7 @@ out vec2 texcoord_frag;
 void main(void) {
 
     // displacement mapping!
-    float disp = texture(displacement.tex, texcoord).r * 0.3;
+    float disp = (1-texture(displacement.tex, texcoord).r) * 0.05;
     vec4 pos = vec4(position_MC,1);
 
     pos += vec4(normal_MC,0)*disp;
