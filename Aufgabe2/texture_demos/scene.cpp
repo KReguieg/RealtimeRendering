@@ -110,7 +110,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // rotate some models
     nodes_["Sphere"]->transformation.rotate(-90, QVector3D(1,0,0));
     nodes_["Torus"]->transformation.rotate(-60, QVector3D(1,0,0));
-    nodes_["Rect"]->transformation.rotate(10, QVector3D(1,0,0));
+    //nodes_["Rect"]->transformation.rotate(10, QVector3D(1,0,0));
 
     // current model and shader
     changeModel("Sphere");
@@ -119,7 +119,7 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // create default camera (0,0,4) -> (0,0,0), 45°
     float aspect = float(parent->width())/float(parent->height());
     camera_ = std::make_shared<Camera>(
-                QVector3D(0,0,1), // look from
+                QVector3D(0,0.1,0.4), // look from
                 QVector3D(0,0,0), // look to
                 QVector3D(0,1,0), // this way is up
                 30.0,   // field of view in up direction
@@ -334,23 +334,42 @@ void Scene::draw()
 
     if(flyOverTerrain)
     {
-        if(!(FlyInput.x() == 0 && FlyInput.y() == 0))
+        if(!(FlyInput.x() == 0 && FlyInput.y() == 0 && FlyInput.z() == 0))
         {
-            if(FlyInput.y() == 0){
+            if(FlyInput.x() != 0){
                 QVector2D target;
                 QVector3D up = QVector3D(0,0,1);
 
-                target = QVector3D::crossProduct(QVector3D(FlyDirection,0),up).toVector2D();
-                if(FlyInput.x() > 0)
+                target = QVector3D::crossProduct(FlyDirection,up).toVector2D();
+
+
+                if(FlyInput.x() > 0){
                     target *= -1;
+                }
+                QVector2D olddir = FlyDirection;
                 FlyDirection = (target*0.1 + FlyDirection * 0.8).normalized();
+                float dot = QVector2D::dotProduct(olddir, FlyDirection);
+                float len1 = olddir.length();
+                float len2 = FlyDirection.length();
+                float winkel = acos(dot/len1*len2);
+                if(FlyInput.x() > 0){
+                    winkel *= -1;
+                }
+                worldTransform().rotate(winkel*57.295779513,QVector3D(0,1,0));
             }
-            else
+            if(FlyInput.z() != 0)
             {
-                if(FlyInput.y() > 0)
+                if(FlyInput.z() > 0)
                     flySpeed += 0.001;
                 else
                     flySpeed -= 0.001;
+            }
+            if(FlyInput.y() != 0)
+            {
+                if(FlyInput.y() > 0)
+                    worldTransform().translate(0, -0.001,0);
+                else
+                    worldTransform().translate(0, 0.001,0);
             }
         }
         FlyPosition += FlyDirection * flySpeed;
@@ -391,7 +410,7 @@ void Scene::updateViewport(size_t width, size_t height)
     glViewport(0,0,GLint(width),GLint(height));
 }
 
-void Scene::SetInput(QVector2D in ){
+void Scene::SetInput(QVector3D in ){
     qDebug() << "Input:" << in;
     FlyInput = in;
 }

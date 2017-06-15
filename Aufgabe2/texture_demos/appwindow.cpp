@@ -480,18 +480,24 @@ void AppWindow::keyPressEvent(QKeyEvent *event)
         scene().camera().translateViewPoint(QVector3D(0,0,+0.1f));
         ui->openGLWidget->update();
         break;
-
+    // Flugzeugsteuerung
     case Qt::Key_W:
-        scene().SetInput(QVector2D(0,1));
+        scene().SetInput(QVector3D(0,0,1));
         break;
     case Qt::Key_S:
-        scene().SetInput(QVector2D(0,-1));
+        scene().SetInput(QVector3D(0,0,-1));
         break;
     case Qt::Key_A:
-        scene().SetInput(QVector2D(1,0));
+        scene().SetInput(QVector3D(1,0,0));
         break;
     case Qt::Key_D:
-        scene().SetInput(QVector2D(-1,0));
+        scene().SetInput(QVector3D(-1,0,0));
+        break;
+    case Qt::Key_Space:
+        scene().SetInput(QVector3D(0,1,0));
+        break;
+    case Qt::Key_X:
+        scene().SetInput(QVector3D(0,-1,0));
         break;
     } // switch
 }

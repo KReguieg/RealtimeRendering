@@ -39,7 +39,7 @@ public:
 signals:
 
 public slots:
-    void SetInput(QVector2D input);
+    void SetInput(QVector3D input);
     // change model according to combo box in UI
     void changeModel(const QString& txt);
 
@@ -157,7 +157,7 @@ protected:
 
     QVector2D FlyPosition;
     QVector2D FlyDirection;
-    QVector2D FlyInput;
+    QVector3D FlyInput;
     float flySpeed;
 };
 
