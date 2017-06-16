@@ -349,9 +349,9 @@ void Scene::draw()
                 QVector2D olddir = FlyDirection;
                 FlyDirection = (target*0.1 + FlyDirection * 0.8).normalized();
                 float dot = QVector2D::dotProduct(olddir, FlyDirection);
-                float len1 = olddir.length();
-                float len2 = FlyDirection.length();
-                float winkel = acos(dot/len1*len2);
+                //float len1 = olddir.length();
+                //float len2 = FlyDirection.length();
+                float winkel = acos(dot);//acos(dot/len1 * len2) both normalized
                 if(FlyInput.x() > 0){
                     winkel *= -1;
                 }
