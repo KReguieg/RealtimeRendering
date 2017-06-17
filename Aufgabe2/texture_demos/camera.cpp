@@ -87,3 +87,9 @@ void Camera::calculateMatrices_()
     projectionMatrix_.perspective(fovy_,aspect_ratio_,near_,far_);
 }
 
+void Camera::setViewPoint(QVector3D point)
+{
+    to_ = point;
+    calculateMatrices_();
+}
+

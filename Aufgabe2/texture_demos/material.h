@@ -141,13 +141,10 @@ public:
     struct Terrain {
         std::shared_ptr<QOpenGLTexture> texture;
         std::shared_ptr<QOpenGLTexture> diffuseTexture;
-        std::shared_ptr<QOpenGLTexture> glossTexture;
-        std::shared_ptr<QOpenGLTexture> cloudsTexture;
-        float night_scale = 1.0;
-        float night_blend_exp = 3.0;
-        bool debug = false;
-        bool debugWaterLand = false;
-        bool animateClouds = false;
+        std::shared_ptr<QOpenGLTexture> temple;
+        std::shared_ptr<QOpenGLTexture> temple_bump;
+        std::shared_ptr<QOpenGLTexture> temple_displacement;
+        float amplitude;
     } terrain;
 
 
@@ -167,5 +164,14 @@ public:
     void apply() override;
 };
 
+class SkyboxMaterial : public Material {
+public:
+    SkyboxMaterial(std::shared_ptr<QOpenGLShaderProgram> prog) : Material(prog) {}
+    std::shared_ptr<QOpenGLTexture> cubeMap;
+
+    QVector3D lookDirection;
+    float flyHeight;
+    void apply() override;
+};
 
 #endif // MATERIAL_H

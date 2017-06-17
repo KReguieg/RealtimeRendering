@@ -82,6 +82,7 @@ void TerrainMaterial::apply(){
     prog_->bind();
 
     prog_->setUniformValue("flyPosition", flyPosition);
+    prog_->setUniformValue("terrain.amplitude", terrain.amplitude);
 
     // point light
     prog_->setUniformValue("light.position_EC", light.position_EC);
@@ -98,6 +99,24 @@ void TerrainMaterial::apply(){
     terrain.diffuseTexture->bind(2);
     prog_->setUniformValue("displacement.tex", 3);
     displacement.tex ->bind(3);
+
+    prog_->setUniformValue("terrain.temple", 4);
+    terrain.temple->bind(4);
+    prog_->setUniformValue("terrain.temple_bump", 5);
+    terrain.temple_bump->bind(5);
+    prog_->setUniformValue("terrain.temple_displacement", 6);
+    terrain.temple_displacement->bind(6);
+}
+
+
+void SkyboxMaterial::apply(){
+
+    prog_->bind();
+
+    prog_->setUniformValue("cubeMap", 0);
+    prog_->setUniformValue("flyHeight", flyHeight);
+    cubeMap->bind(0);
+    prog_->setUniformValue("lookDirection", lookDirection);
 
 }
 

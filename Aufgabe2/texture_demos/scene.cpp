@@ -6,6 +6,7 @@
 
 #include "geometries/cube.h" // geom::Cube
 #include "geometries/parametric.h" // geom::Sphere etc.
+#include "cubemap.h"
 
 using namespace std;
 
@@ -17,7 +18,6 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     lastDrawTime_(clock_.now()),
     currentNode_(nullptr)
 {
-
     // check some OpenGL parameters
     {
         int minor, major;
@@ -47,6 +47,10 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     planetMaterial_->light.position_EC = QVector3D(4,0,2);
     planetMaterial_->phong.shininess = 10;
 
+    // load shader source files and compile them into OpenGL program objects
+    auto skybox_prog = createProgram(":/shaders/cubemap.vert", ":/shaders/cubemap.frag");
+    skyboxMaterial = std::make_shared<SkyboxMaterial>(skybox_prog);
+
     // program (with additional geometry shader) to visualize wireframe
     auto wire_prog = createProgram(":/shaders/wireframe.vert",
                                    ":/shaders/wireframe.frag",
@@ -72,7 +76,12 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     auto terrain_disp   = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer_bump.jpg").mirrored());
     auto terrain_bumps  = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer_normal.jpg").mirrored());
     auto terrain_diffuse = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/alzheimer_diffuse.jpg").mirrored());
+    auto terrain_temple = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/temple.jpg").mirrored());
+    auto terrain_temple_bump = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/temple-normal.jpg").mirrored());
+    auto terrain_temple_displacement = std::make_shared<QOpenGLTexture>(QImage(":/assets/textures/temple-bump.jpg").mirrored());
 
+
+    auto sky_box_tex = makeCubeMap(":/assets/textures");
     // tex parameters
     clouds->setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::Repeat);
     clouds->setWrapMode(QOpenGLTexture::DirectionT, QOpenGLTexture::Repeat);
@@ -89,6 +98,14 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     terrainMaterial_->displacement.tex = terrain_disp;
     terrainMaterial_->bump.tex = terrain_bumps;
     terrainMaterial_->terrain.diffuseTexture = terrain_diffuse;
+    terrainMaterial_->terrain.temple = terrain_temple;
+    terrainMaterial_->terrain.temple_bump = terrain_bumps;
+    terrainMaterial_->terrain.temple_displacement = terrain_temple_displacement;
+
+
+    skyboxMaterial->cubeMap = sky_box_tex;
+    flyHeight = 0.25;
+    skyboxMaterial->flyHeight = flyHeight;
     // load meshes from .obj files and assign shader programs to them
     auto std = planetMaterial_;
     meshes_["Duck"]    = std::make_shared<Mesh>(":/assets/models/duck/duck.obj", std);
@@ -98,19 +115,22 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     meshes_["Sphere"] = std::make_shared<Mesh>(make_shared<geom::Planet>(80,80), std);
     meshes_["Torus"]  = std::make_shared<Mesh>(make_shared<geom::Torus>(4, 2, 80,20), std);
     meshes_["Rect"]   = std::make_shared<Mesh>(make_shared<geom::Rect>(500,500), terrainMaterial_);
+    skyMesh_ = std::make_shared<Mesh>(make_shared<geom::Cube>(), skyboxMaterial);
 
     // pack each mesh into a scene node, along with a transform that scales
     // it to standard size [1,1,1]
     nodes_["Sphere"]  = createNode(meshes_["Sphere"], true);
     nodes_["Torus"]   = createNode(meshes_["Torus"], true);
-    nodes_["Rect"]    = createNode(meshes_["Rect"], true);
+    nodes_["Rect"]    = createNode(meshes_["Rect"], false);
     nodes_["Cube"]    = createNode(meshes_["Cube"], true);
+    nodes_["Sky"]     = createNode(skyMesh_, true);
     nodes_["Duck"]    = createNode(meshes_["Duck"], true);
 
     // rotate some models
     nodes_["Sphere"]->transformation.rotate(-90, QVector3D(1,0,0));
     nodes_["Torus"]->transformation.rotate(-60, QVector3D(1,0,0));
-    //nodes_["Rect"]->transformation.rotate(10, QVector3D(1,0,0));
+
+
 
     // current model and shader
     changeModel("Sphere");
@@ -119,8 +139,8 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     // create default camera (0,0,4) -> (0,0,0), 45°
     float aspect = float(parent->width())/float(parent->height());
     camera_ = std::make_shared<Camera>(
-                QVector3D(0,0.1,0.4), // look from
-                QVector3D(0,0,0), // look to
+                QVector3D(0,0.1,0), // look from
+                QVector3D(0,0,1), // look to
                 QVector3D(0,1,0), // this way is up
                 30.0,   // field of view in up direction
                 aspect, // aspect ratio
@@ -328,9 +348,6 @@ void Scene::draw()
     // clear background, set OpenGL state
     glClearColor(bgcolor_[0], bgcolor_[1], bgcolor_[2], 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
 
     if(flyOverTerrain)
     {
@@ -342,12 +359,11 @@ void Scene::draw()
 
                 target = QVector3D::crossProduct(FlyDirection,up).toVector2D();
 
-
                 if(FlyInput.x() > 0){
                     target *= -1;
                 }
                 QVector2D olddir = FlyDirection;
-                FlyDirection = (target*0.1 + FlyDirection * 0.8).normalized();
+                FlyDirection = (target*0.05 + FlyDirection).normalized();
                 float dot = QVector2D::dotProduct(olddir, FlyDirection);
                 //float len1 = olddir.length();
                 //float len2 = FlyDirection.length();
@@ -355,25 +371,47 @@ void Scene::draw()
                 if(FlyInput.x() > 0){
                     winkel *= -1;
                 }
-                worldTransform().rotate(winkel*57.295779513,QVector3D(0,1,0));
+                skyboxMaterial->lookDirection = FlyDirection;
+                //nodes_["Sky"]->transformation.rotate(winkel*57.295779513, QVector3D(0,1,0));
+                //QVector2D translation = olddir- FlyDirection;
+                //qDebug() << "Rotation:" << translation;
+                camera_->setViewPoint(QVector3D( -FlyDirection.x(), 0, FlyDirection.y()).normalized());
+
+                //worldTransform().rotate(winkel*57.295779513, QVector3D(0,1,0));
             }
             if(FlyInput.z() != 0)
             {
-                if(FlyInput.z() > 0)
+                if(FlyInput.z() < 0)
                     flySpeed += 0.001;
                 else
                     flySpeed -= 0.001;
             }
             if(FlyInput.y() != 0)
             {
-                if(FlyInput.y() > 0)
+                float scrollingFaktor = 0.001;
+                if(FlyInput.y() > 0){
                     worldTransform().translate(0, -0.001,0);
-                else
+                    skyboxMaterial->flyHeight -= scrollingFaktor;
+                }
+                else{
                     worldTransform().translate(0, 0.001,0);
+                    skyboxMaterial->flyHeight += scrollingFaktor;
+                }
+                //qDebug() << "height:" << skyboxMaterial->flyHeight ;
             }
         }
         FlyPosition += FlyDirection * flySpeed;
+
         terrainMaterial_->flyPosition = FlyPosition;
+
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+        nodes_["Sky"]->draw(*camera_);
+
+        glEnable(GL_DEPTH_TEST);
+
+        glCullFace(GL_BACK);
+
         replaceMaterialAndDrawScene(terrainMaterial_);
     }
     // draw using currently selected material, if one is selected at all
@@ -411,6 +449,12 @@ void Scene::updateViewport(size_t width, size_t height)
 }
 
 void Scene::SetInput(QVector3D in ){
-    qDebug() << "Input:" << in;
+
     FlyInput = in;
 }
+
+void Scene::SetAmplitude(float amp)
+{
+    terrainMaterial_->terrain.amplitude = amp;
+}
+

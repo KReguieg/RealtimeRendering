@@ -45,7 +45,7 @@ public:
     // manipulate projection parameters
     void setAspectRatio(float aspect);
     void setFieldOfView(float degrees);
-
+    void setViewPoint(QVector3D point);
     // change view point, keep look at point
     void translateViewPoint(QVector3D delta);
 

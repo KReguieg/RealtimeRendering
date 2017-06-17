@@ -19,5 +19,7 @@
         <file>shaders/wireframe.frag</file>
         <file>shaders/wireframe.geom</file>
         <file>shaders/wireframe.vert</file>
+        <file>shaders/cubemap.frag</file>
+        <file>shaders/cubemap.vert</file>
     </qresource>
 </RCC>

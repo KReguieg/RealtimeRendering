@@ -44,10 +44,10 @@ struct Terrain{
     // additional textures
     sampler2D texture;
     sampler2D diffuseTexture;
-    sampler2D glossTexture;
-    sampler2D cloudsTexture;
-    float night_scale;
-    float night_blend_exp;
+    sampler2D temple;
+    sampler2D temple_bump;
+    sampler2D temple_displacement;
+    float amplitude;
 
 
     // animation
@@ -86,8 +86,23 @@ void main() {
     float vdotl = dot(v,l);
     vec3 ambient = texture(terrain.texture, coords).rgb;
     vec3 diffuse = texture(terrain.diffuseTexture, coords).rgb * vdotl;
-    vec3 displ = (1-texture(displacement.tex, coords).rgb) * 0.3;
+    diffuse /= 2;
+    vec3 displ = (1-texture(displacement.tex, coords).rgb) * 0.2;
+
+    vec3 temple = texture(terrain.temple, coords * 2).rgb;
+    vec3 temple_bump = texture(terrain.temple_bump, coords * 2).rgb;
+    vec3 templeN = decodeNormal(temple_bump);
+
     vec3 color = ambient + diffuse + displ;
+
+    if(displ.r >= 0.125){
+        vec3 templeColor = temple * templeN + diffuse;
+        color = templeColor;
+    }
+    //if(position_EC.y >= 0.5)
+    if(position_EC.y > 0)
+        color -= vec3(position_EC.y) * 50 + diffuse * position_EC.y * 50;//vec3(0.2,0.2,0.2);
+
     // set fragment color
     //outColor = vec4(texture(terrain.texture, texcoord_frag).rgb, 1.0) + vec4(texture(bump.tex, texcoord_frag).rgb, 1.0);
     //outColor = vec4(1);

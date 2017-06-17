@@ -24,5 +24,14 @@
         <file>assets/textures/alzheimer.jpg</file>
         <file>assets/textures/alzheimer_diffuse.jpg</file>
         <file>assets/textures/circuit.jpg</file>
+        <file>assets/textures/negx.jpg</file>
+        <file>assets/textures/negy.jpg</file>
+        <file>assets/textures/negz.jpg</file>
+        <file>assets/textures/posx.jpg</file>
+        <file>assets/textures/posy.jpg</file>
+        <file>assets/textures/posz.jpg</file>
+        <file>assets/textures/temple-bump.jpg</file>
+        <file>assets/textures/temple-normal.jpg</file>
+        <file>assets/textures/temple.jpg</file>
     </qresource>
 </RCC>

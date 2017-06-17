@@ -10,7 +10,7 @@
 #include "mesh/mesh.h"
 #include "camera.h"
 #include "node.h"
-
+#include "cubemap.h"
 
 #include <memory> // std::unique_ptr
 #include <map>    // std::map
@@ -97,7 +97,7 @@ public slots:
 
     // adjust camera / viewport / ... if drawing surface changes
     void updateViewport(size_t width, size_t height);
-
+    void SetAmplitude(float amp);
 protected:
 
     // parent widget
@@ -123,14 +123,20 @@ protected:
     std::shared_ptr<WireframeMaterial> wireframeMaterial_;
     std::shared_ptr<VectorsMaterial> vectorsMaterial_;
     std::shared_ptr<TerrainMaterial> terrainMaterial_;
-
+    std::shared_ptr<SkyboxMaterial> skyboxMaterial;
     // additional debugging information to show
     bool drawUsingPlanetShader = true;
     bool showWireframe  = false;
     bool flyOverTerrain = false;
 
+
+
+
     // mesh(es) to be used / shared
     std::map<QString, std::shared_ptr<Mesh>> meshes_;
+
+    // mesh(es) to be used / shared
+    std::shared_ptr<Mesh> skyMesh_;
 
     // nodes to be used
     std::map<QString, std::shared_ptr<Node>> nodes_;
@@ -159,5 +165,7 @@ protected:
     QVector2D FlyDirection;
     QVector3D FlyInput;
     float flySpeed;
+    float flyHeight;
+
 };
 

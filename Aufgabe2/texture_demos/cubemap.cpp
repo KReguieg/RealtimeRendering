@@ -18,6 +18,7 @@ makeCubeMap(string path_to_images, std::array<string, 6> sides)
         QString filename = (path_to_images + "/" + side).c_str();
         images.push_back( QImage(filename)./*mirrored().*/
                           convertToFormat(QImage::Format_RGBA8888) );
+
     }
 
     // create and allocate cube map texture

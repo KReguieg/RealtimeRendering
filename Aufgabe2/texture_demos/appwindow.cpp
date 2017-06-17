@@ -346,6 +346,7 @@ void AppWindow::readMore()
 void AppWindow::refreshDisplay()
 {
     m_canvas->setLevel(m_audioInfo->level());
+    scene().SetAmplitude(m_audioInfo->level());
 }
 void AppWindow::deviceChanged(int index)
 {

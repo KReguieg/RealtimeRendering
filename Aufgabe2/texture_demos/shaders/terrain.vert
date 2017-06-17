@@ -35,7 +35,22 @@ struct DisplacementMaterial {
 uniform DisplacementMaterial displacement;
 uniform vec2 flyPosition;
 
+struct Terrain{
 
+    // additional textures
+    sampler2D texture;
+    sampler2D diffuseTexture;
+    sampler2D temple;
+    sampler2D temple_bump;
+    sampler2D temple_displacement;
+    float amplitude;
+
+
+    // animation
+    bool animateClouds;
+
+};
+uniform Terrain terrain;
 // output - transformed to eye coordinates (EC)
 out vec4 position_EC;
 out vec3 normal_EC;
@@ -49,18 +64,24 @@ out vec2 texcoord_frag;
 
 
 void main(void) {
-
+    vec2 coord = texcoord+flyPosition;
     // displacement mapping!
-    float disp = (1-texture(displacement.tex, texcoord+flyPosition).r) * 0.01;
+    float displ = (1-texture(displacement.tex, coord).r) * 0.005;
     vec4 pos = vec4(position_MC,1);
 
-    pos += vec4(normal_MC,0)*disp;
+    float templePos = (1-texture(terrain.temple_displacement, coord * 2).r)*0.05;
+    if(displ * 40 >= 0.125)
+        displ += templePos;
+    pos += vec4(normal_MC,0)*templePos * terrain.amplitude;
 
-    // vertex/fragment position in clip coordinates
-    gl_Position  = modelViewProjectionMatrix * pos;
 
     // vertex/fragment position in eye coordinates
     position_EC  = modelViewMatrix * pos;
+    if(position_EC.y > 0 && position_EC.y * 50 >= 1)
+        pos += vec4(normal_MC,0)*-50;
+    // vertex/fragment position in clip coordinates
+    gl_Position  = modelViewProjectionMatrix * pos;
+
 
     // normal in eye coordinates
     normal_EC = normalMatrix * normal_MC;
