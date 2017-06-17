@@ -3,6 +3,7 @@
 uniform samplerCube cubeMap;
 
 // matrices provided by the camera
+uniform mat4 modelViewProjectionMatrix;
 uniform mat4 modelViewMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
@@ -19,11 +20,14 @@ out vec4 outColor;
 void main(void)
 {
     vec3 toVertexEC = normalize(position_EC.xyz );
+    vec3 mvp = (modelViewProjectionMatrix * vec4(toVertexEC, 0)).xyz;
     vec3 toVertexWC = (inverse(viewMatrix) * vec4(toVertexEC, 0)).xyz;
-    float ndotl =  (dot(position_EC.xzy, normal_EC)+ flyHeight) * 20 ;
+    float ndotl =  (dot(toVertexWC, normal_EC)) * 20 ;
     vec3 sky = texture(cubeMap, toVertexWC).rgb;
     outColor = vec4(sky, 1);
-    //if(ndotl <= 1 && ndotl >= 0)
-    //    outColor -= vec4(ndotl,ndotl,ndotl, 1);
+
+    float f = (toVertexWC.y ) * 20;
+    if(f <= 1 && f >= 0)
+        outColor = vec4(f);
 
 }
