@@ -84,21 +84,29 @@ void main() {
 
     float ndotl = dot(n,l);
     float vdotl = dot(v,l);
-    vec3 ambient = texture(terrain.texture, coords).rgb;
-    vec3 diffuse = texture(terrain.diffuseTexture, coords).rgb * vdotl;
+    vec3 ambient = texture(terrain.texture, coords * 2).rgb;
+    vec3 diffuse = texture(terrain.diffuseTexture, coords * 2).rgb * vdotl;
     diffuse /= 2;
-    vec3 displ = (1-texture(displacement.tex, coords).rgb) * 0.2;
+    vec3 displ = (1-texture(terrain.temple_displacement, coords * 2).rgb) * 0.2;
 
     vec3 temple = texture(terrain.temple, coords * 2).rgb;
     vec3 temple_bump = texture(terrain.temple_bump, coords * 2).rgb;
     vec3 templeN = decodeNormal(temple_bump);
+    float templeNdotL = dot(light.position_EC.xyz, templeN);
+    vec3 musikColor = vec3( 1 - terrain.amplitude, abs(0.5 - terrain.amplitude), sin(terrain.amplitude));
+    vec3 color = temple * templeNdotL;//ambient + diffuse + displ;
 
-    vec3 color = ambient + diffuse + displ;
-
-    if(displ.r >= 0.125){
-        vec3 templeColor = temple * templeN + diffuse;
-        color = templeColor;
+    if(displ.r <= 0.055){
+        vec3 city = ambient + musikColor;
+        color = city;
     }
+    if(displ.r > 0.055 && displ.r <= 0.06){
+        vec3 city = ambient + musikColor* 0.8;
+        color = city ;
+    }
+
+    if(templeN.z >= 0.99 && displ.r >= 0.15 - terrain.amplitude / 20)
+        color = musikColor;
     //if(position_EC.y >= 0.5)
     if(position_EC.y > 0)
         color -= vec3(position_EC.y) * 50 + diffuse * position_EC.y * 50;//vec3(0.2,0.2,0.2);

@@ -99,12 +99,12 @@ Scene::Scene(QWidget* parent, QOpenGLContext *context) :
     terrainMaterial_->bump.tex = terrain_bumps;
     terrainMaterial_->terrain.diffuseTexture = terrain_diffuse;
     terrainMaterial_->terrain.temple = terrain_temple;
-    terrainMaterial_->terrain.temple_bump = terrain_bumps;
+    terrainMaterial_->terrain.temple_bump = terrain_temple_bump;
     terrainMaterial_->terrain.temple_displacement = terrain_temple_displacement;
 
 
     skyboxMaterial->cubeMap = sky_box_tex;
-    flyHeight = 0.25;
+    flyHeight = 0.16;
     skyboxMaterial->flyHeight = flyHeight;
     // load meshes from .obj files and assign shader programs to them
     auto std = planetMaterial_;
@@ -388,16 +388,16 @@ void Scene::draw()
             }
             if(FlyInput.y() != 0)
             {
-                float scrollingFaktor = 0.001;
+                float scrollingFaktor = 0.0018;
                 if(FlyInput.y() > 0){
                     worldTransform().translate(0, -0.001,0);
-                    skyboxMaterial->flyHeight -= scrollingFaktor;
+                    skyboxMaterial->flyHeight += scrollingFaktor;
                 }
                 else{
                     worldTransform().translate(0, 0.001,0);
-                    skyboxMaterial->flyHeight += scrollingFaktor;
+                    skyboxMaterial->flyHeight -= scrollingFaktor;
                 }
-                //qDebug() << "height:" << skyboxMaterial->flyHeight ;
+                qDebug() << "height:" << skyboxMaterial->flyHeight ;
             }
         }
         FlyPosition += FlyDirection * flySpeed;

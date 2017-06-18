@@ -66,15 +66,20 @@ out vec2 texcoord_frag;
 void main(void) {
     vec2 coord = texcoord+flyPosition;
     // displacement mapping!
-    float displ = (1-texture(displacement.tex, coord).r) * 0.005;
+    float displ = (1-texture(displacement.tex, coord * 2).r) * 0.04;
     vec4 pos = vec4(position_MC,1);
 
     float templePos = (1-texture(terrain.temple_displacement, coord * 2).r)*0.05;
-    if(displ * 40 >= 0.125)
-        displ += templePos;
-    pos += vec4(normal_MC,0)*templePos * terrain.amplitude;
+    //if(displ * 40 >= 0.125)
+    //    displ += templePos;
+    pos += vec4(normal_MC,0)*templePos ;//* terrain.amplitude;
 
-
+    if(templePos * 4 < 0.055){
+        pos += vec4(normal_MC,0)* displ * terrain.amplitude * 0.5;
+    }
+    if(templePos* 4 > 0.055 && templePos* 4  <= 0.06){
+        pos += vec4(normal_MC,0)* displ * terrain.amplitude * 0.2;
+    }
     // vertex/fragment position in eye coordinates
     position_EC  = modelViewMatrix * pos;
     if(position_EC.y > 0 && position_EC.y * 50 >= 1)

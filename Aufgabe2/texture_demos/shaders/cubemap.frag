@@ -23,11 +23,11 @@ void main(void)
     vec3 mvp = (modelViewProjectionMatrix * vec4(toVertexEC, 0)).xyz;
     vec3 toVertexWC = (inverse(viewMatrix) * vec4(toVertexEC, 0)).xyz;
     float ndotl =  (dot(toVertexWC, normal_EC)) * 20 ;
-    vec3 sky = texture(cubeMap, toVertexWC).rgb;
+    vec3 sky = texture(cubeMap, toVertexWC ).rgb;
     outColor = vec4(sky, 1);
 
-    float f = (toVertexWC.y ) * 20;
+    float f = (toVertexWC.y + flyHeight) * 15;
     if(f <= 1 && f >= 0)
-        outColor = vec4(f);
+        outColor -= vec4(1-f);
 
 }
