@@ -94,7 +94,7 @@ void main() {
     vec3 templeN = decodeNormal(temple_bump);
     float templeNdotL = dot(light.position_EC.xyz, templeN);
     vec3 musikColor = vec3( 1 - terrain.amplitude, abs(0.5 - terrain.amplitude), sin(terrain.amplitude));
-    vec3 color = temple * templeNdotL;//ambient + diffuse + displ;
+    vec3 color = temple * templeNdotL ;//ambient + diffuse + displ;
 
     if(displ.r <= 0.055){
         vec3 city = ambient + musikColor;

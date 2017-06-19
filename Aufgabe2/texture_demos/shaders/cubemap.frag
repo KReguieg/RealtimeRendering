@@ -26,8 +26,8 @@ void main(void)
     vec3 sky = texture(cubeMap, toVertexWC ).rgb;
     outColor = vec4(sky, 1);
 
-    float f = (toVertexWC.y + flyHeight) * 15;
-    if(f <= 1 && f >= 0)
-        outColor -= vec4(1-f);
+    float f = (toVertexWC.y + flyHeight) * 5;
+    if(f <= 0.5 && f >= -0.2)
+        outColor -= vec4(sin(0.5-f));
 
 }

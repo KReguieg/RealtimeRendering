@@ -397,7 +397,7 @@ void Scene::draw()
                     worldTransform().translate(0, 0.001,0);
                     skyboxMaterial->flyHeight -= scrollingFaktor;
                 }
-                qDebug() << "height:" << skyboxMaterial->flyHeight ;
+                //qDebug() << "height:" << skyboxMaterial->flyHeight ;
             }
         }
         FlyPosition += FlyDirection * flySpeed;
