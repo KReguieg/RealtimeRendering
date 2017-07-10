@@ -81,7 +81,7 @@ AppWindow::AppWindow(QWidget *parent) :
         if(value == "Blur") {
             hideBufferContents();
             ui->post_kernel_size->setEnabled(true);
-            scene().useSimpleBlur();
+            scene().useDepthOfField();
         } else if(value == "2-Pass 9x9 Gauss") {
             scene().useTwoPassGauss();
             hideBufferContents();

@@ -56,7 +56,7 @@ public slots:
 
     // methods affecting post processing
     void setPostFilterKernelSize(int n);
-    void useSimpleBlur();
+    void useDepthOfField();
     void useTwoPassGauss();
     void toggleJittering(bool value);
     void toggleSplitDisplay(bool value);

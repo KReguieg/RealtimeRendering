@@ -72,3 +72,6 @@ mac: {
     PRE_TARGETDEPS += $$qmakeforce.target
     QMAKE_EXTRA_TARGETS += qmakeforce
 }
+
+DISTFILES += \
+    assets/shaders/depth_of_field.frag

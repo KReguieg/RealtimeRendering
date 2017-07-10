@@ -7,5 +7,6 @@
         <file>assets/shaders/post.vert</file>
         <file>assets/shaders/gauss_9x9_passA.frag</file>
         <file>assets/shaders/gauss_9x9_passB.frag</file>
+        <file>assets/shaders/depth_of_field.frag</file>
     </qresource>
 </RCC>

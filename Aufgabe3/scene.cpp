@@ -81,10 +81,24 @@ void Scene::makeNodes()
     materials_["red_original"] = std::make_shared<TexturedPhongMaterial>(*materials_["red"]);
     auto std = materials_["red"];
 
+    // make multiple instances of (non-) textured Phong material
+    materials_["green"] = std::make_shared<TexturedPhongMaterial>(phong_prog,1);
+    materials_["green"]->phong.k_diffuse = QVector3D(0.1f,0.8f,0.1f);
+    materials_["green"]->phong.k_ambient = materials_["green"]->phong.k_diffuse * 0.3f;
+    materials_["green"]->phong.shininess = 80;
+    materials_["green"]->envmap.useEnvironmentTexture = true;
+    materials_["green"]->environmentTexture = cubetex;
+    materials_["green"] = std::make_shared<TexturedPhongMaterial>(*materials_["green"]);
+    auto std1 = materials_["green"];
+
     // post processing stuff, in separate tex units 10-12
     auto orig = createProgram(":/assets/shaders/post.vert",
                               ":/assets/shaders/original.frag");
     post_materials_["original"] = make_shared<PostMaterial>(orig, 10);
+
+    // depth of field program
+    auto depth_of_field = createProgram(":assets/shaders/post.vert", ":/assets/shaders/depth_of_field.frag");
+    post_materials_["depth_of_field"] = make_shared<PostMaterial>(depth_of_field, 10);
 
     auto blur = createProgram(":/assets/shaders/post.vert",
                               ":/assets/shaders/blur.frag");
@@ -103,6 +117,8 @@ void Scene::makeNodes()
 
     // add meshes of some procedural geometry objects (not loaded from OBJ files)
     meshes_["Cube"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std);
+    meshes_["Cube1"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std1);
+    meshes_["Cube2"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std1);
     meshes_["Sphere"] = std::make_shared<Mesh>(make_shared<geom::Sphere>(80,80), std);
     meshes_["Torus"]  = std::make_shared<Mesh>(make_shared<geom::Torus>(4, 2, 80,20), std);
 
@@ -114,6 +130,9 @@ void Scene::makeNodes()
     meshes_["blur"]      = std::make_shared<Mesh>(make_shared<geom::RectXY>(1, 1),
                                                   post_materials_["blur"]);
     nodes_["blur"]       = createNode(meshes_["blur"], false);
+
+    meshes_["depth_of_field"]   = std::make_shared<Mesh>(make_shared<geom::RectXY>(1, 1), post_materials_["depth_of_field"]);
+    nodes_["depth_of_field"]    = createNode(meshes_["depth_of_field"], false);
 
     meshes_["gauss_1"]   = std::make_shared<Mesh>(make_shared<geom::RectXY>(1, 1), post_materials_["gauss_1"]);
     nodes_["gauss_1"]    = createNode(meshes_["gauss_1"], false);
@@ -127,6 +146,9 @@ void Scene::makeNodes()
     // pack each mesh into a scene node, along with a transform that scales
     // it to standard size [1,1,1]
     nodes_["Cube"]    = createNode(meshes_["Cube"], true);
+    nodes_["Cube1"]    = createNode(meshes_["Cube1"], true);
+    nodes_["Cube2"]    = createNode(meshes_["Cube2"], true);
+
     nodes_["Sphere"]  = createNode(meshes_["Sphere"], true);
     nodes_["Torus"]   = createNode(meshes_["Torus"], true);
     nodes_["Duck"]    = createNode(meshes_["Duck"], true);
@@ -146,6 +168,8 @@ void Scene::makeScene()
 
     // initial model to be shown in the scene
     nodes_["Scene"]->children.push_back(nodes_["Cube"]);
+    nodes_["Scene"]->children.push_back(nodes_["Cube1"]);
+    nodes_["Scene"]->children.push_back(nodes_["Cube2"]);
 
     // add camera node
     nodes_["Camera"] = createNode(nullptr, false);
@@ -159,6 +183,9 @@ void Scene::makeScene()
     lightNodes_.push_back(nodes_["Light0"]);
     nodes_["Light0"]->transformation.translate(QVector3D(-0.55f, 0.68f, 4.34f)); // above camera
 
+    // translate new cubes into the background
+    nodes_["Cube1"]->transformation.translate(QVector3D(-1.0f, 0.0f, -2.0f));
+    nodes_["Cube2"]->transformation.translate(QVector3D(1.0f, 0.0f, -2.0f));
 }
 
 
@@ -258,8 +285,8 @@ void Scene::setPostFilterKernelSize(int n) {
 }
 
 // change post processing filter
-void Scene::useSimpleBlur() {
-    nodes_["post_pass_1"] = nodes_["blur"];
+void Scene::useDepthOfField() {
+    nodes_["post_pass_1"] = nodes_["depth_of_field"];
     nodes_["post_pass_2"] = nullptr;
     update();
 }
