@@ -98,7 +98,7 @@ void Scene::makeNodes()
 
     // depth of field program
     auto depth_of_field = createProgram(":assets/shaders/post.vert", ":/assets/shaders/depth_of_field.frag");
-    post_materials_["depth_of_field"] = make_shared<PostMaterial>(depth_of_field, 10);
+    post_materials_["depth_of_field"] = make_shared<PostMaterial>(depth_of_field, 13);
 
     auto blur = createProgram(":/assets/shaders/post.vert",
                               ":/assets/shaders/blur.frag");
@@ -140,7 +140,7 @@ void Scene::makeNodes()
     nodes_["gauss_2"]    = createNode(meshes_["gauss_2"], false);
 
     // initial state of post processing phases
-    nodes_["post_pass_1"] = nodes_["blur"];
+    nodes_["post_pass_1"] = nodes_["depth_of_field"];
     nodes_["post_pass_2"] = nullptr;
 
     // pack each mesh into a scene node, along with a transform that scales
@@ -184,7 +184,7 @@ void Scene::makeScene()
     nodes_["Light0"]->transformation.translate(QVector3D(-0.55f, 0.68f, 4.34f)); // above camera
 
     // translate new cubes into the background
-    nodes_["Cube1"]->transformation.translate(QVector3D(-1.0f, 0.0f, -2.0f));
+    nodes_["Cube1"]->transformation.translate(QVector3D(-1.0f, 0.0f, -5.0f));
     nodes_["Cube2"]->transformation.translate(QVector3D(1.0f, 0.0f, -2.0f));
 }
 

@@ -12,12 +12,15 @@ uniform mat4 modelViewProjectionMatrix;
 // tex coords
 in  vec2 texcoord;
 out vec2 texcoord_frag;
+out float z;
 
 // position and normal vectors
 in vec4 position_MC;
 
 void main(void) {
+
     // position to clip coordinates
     gl_Position = modelViewProjectionMatrix * position_MC;
-    texcoord_frag = texcoord;   
+    z = gl_Position.z;
+    texcoord_frag = texcoord;
 }

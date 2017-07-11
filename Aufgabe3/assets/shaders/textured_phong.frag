@@ -16,6 +16,8 @@ in vec3 lightDir_TS;
 // tex coords - just copied
 in vec2 texcoord_frag;
 
+in float z;
+
 // output: color
 out vec4 outColor;
 
@@ -156,6 +158,6 @@ void main() {
     if(envmap.useEnvironmentTexture)
         final_color += c_mirror + c_refract;
 
-    outColor = vec4(final_color, 1.0);
+    outColor = vec4(final_color, 1-z/10);
 
 }

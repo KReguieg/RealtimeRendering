@@ -44,6 +44,8 @@ out vec3 normal_EC;
 out vec3 viewDir_TS;
 out vec3 lightDir_TS;
 
+out float z;
+
 // tex coords - just copied
 out vec2 texcoord_frag;
 
@@ -87,6 +89,7 @@ void main(void) {
     mat3 TBN = mat3(wcTangent, wcBitangent, wcNormal);
     lightDir_TS = wcLightDir * TBN;
     viewDir_TS  = wcViewDir * TBN;
+    z = gl_Position.z;
 
 }
 
