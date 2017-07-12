@@ -63,7 +63,7 @@ void main(void)
         for (int y = 0; y < kernel_height; y++) {
             vec2 jitter = use_jitter? rand2(texcoord_frag) * 2.0 - 1.0 : vec2(0,0);
             float value = normpdf(jitter.x,1) * normpdf(jitter.y,1);
-            vec2 coord = texcoord_frag + (vec2(x, y) - center + jitter) * z;
+            vec2 coord = texcoord_frag + (vec2(x, y) - center + jitter) * size * z;
             vec4 tempcolor = texture(post_tex, coord).rgba;
 
             float diff = z - tempcolor.a;

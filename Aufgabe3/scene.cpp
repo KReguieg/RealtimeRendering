@@ -95,15 +95,15 @@ void Scene::makeNodes()
     materials_["green"] = std::make_shared<TexturedPhongMaterial>(*materials_["green"]);
     auto std1 = materials_["green"];
 
-    /*materials_["wall"] = std::make_shared<TexturedPhongMaterial>(phong_prog,1);
+    materials_["wall"] = std::make_shared<TexturedPhongMaterial>(phong_prog,1);
     materials_["wall"]->phong.k_diffuse = QVector3D(0.1f,0.8f,0.1f);
     materials_["wall"]->phong.k_ambient = materials_["wall"]->phong.k_diffuse * 0.3f;
     materials_["wall"]->phong.shininess = 80;
+    materials_["wall"]->diffuseTexture = wallTex;
     materials_["wall"]->envmap.useEnvironmentTexture = true;
     materials_["wall"]->environmentTexture = cubetex;
     materials_["wall"] = std::make_shared<TexturedPhongMaterial>(*materials_["wall"]);
     auto wall = materials_["wall"];
-    */
 
     // post processing stuff, in separate tex units 10-12
     auto orig = createProgram(":/assets/shaders/post.vert",
@@ -130,14 +130,14 @@ void Scene::makeNodes()
     meshes_["Teapot"]  = std::make_shared<Mesh>(":/assets/models/teapot/teapot.obj", std);
 
     // add meshes of some procedural geometry objects (not loaded from OBJ files)
-    meshes_["Cube"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std);
-    meshes_["Cube1"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std1);
-    meshes_["Cube2"]   = std::make_shared<Mesh>(make_shared<geom::Cube>(), std1);
-    //meshes_["FloorRect"]   = std::make_shared<Mesh>(make_shared<geom::RectXY>(), wall);
-    //meshes_["LeftRect"]   = std::make_shared<Mesh>(make_shared<geom::RectXY>(), wall);
-    //meshes_["RightRect"]   = std::make_shared<Mesh>(make_shared<geom::RectXY>(), wall);
-    meshes_["Sphere"] = std::make_shared<Mesh>(make_shared<geom::Sphere>(80,80), std);
-    meshes_["Torus"]  = std::make_shared<Mesh>(make_shared<geom::Torus>(4, 2, 80,20), std);
+    meshes_["Cube"]         = std::make_shared<Mesh>(make_shared<geom::Cube>(), std);
+    meshes_["Cube1"]        = std::make_shared<Mesh>(make_shared<geom::Cube>(), std1);
+    meshes_["Cube2"]        = std::make_shared<Mesh>(make_shared<geom::Cube>(), std1);
+    meshes_["FloorRect"]    = std::make_shared<Mesh>(make_shared<geom::Rect>(500,500), wall);
+    meshes_["LeftRect"]     = std::make_shared<Mesh>(make_shared<geom::Rect>(500,500), wall);
+    meshes_["RightRect"]    = std::make_shared<Mesh>(make_shared<geom::Rect>(500,500), wall);
+    meshes_["Sphere"]       = std::make_shared<Mesh>(make_shared<geom::Sphere>(80,80), std);
+    meshes_["Torus"]        = std::make_shared<Mesh>(make_shared<geom::Torus>(4, 2, 80,20), std);
 
     // full-screen rectangles for post processing
     meshes_["original"]  = std::make_shared<Mesh>(make_shared<geom::RectXY>(1, 1),
