@@ -158,6 +158,6 @@ void main() {
     if(envmap.useEnvironmentTexture)
         final_color += c_mirror + c_refract;
 
-    outColor = vec4(final_color, 1-z/10);
+    outColor = vec4(final_color, z/10);
 
 }
