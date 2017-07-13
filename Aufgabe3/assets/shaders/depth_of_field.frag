@@ -67,14 +67,10 @@ void main(void)
             vec4 tempcolor = texture(post_tex, coord).rgba;
 
             float diff = z - tempcolor.a;
-            if(diff < 0.01) {
-                faktor =  z;
-            } else {
-                faktor =  tempcolor.a ;
-            }
-            faktor = value;
+            faktor = 1 - abs(diff);
             color += tempcolor * faktor ;
             sum += faktor;
+
         }
     }
 
